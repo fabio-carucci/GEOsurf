@@ -7,6 +7,10 @@ import { configDotenv } from "dotenv";
 // Configuro dotenv per caricare le variabili d'ambiente dal file .env
 configDotenv();
 
+import loginCompanyRoutes from './routes/companies/loginCompanyRoutes.js'
+import companyRoutes from './routes/companies/companyRoutes.js'
+import jwtCompanyVerifier from './middlewares/jwtCompanyVerifier.js';
+
 // Importo la variabile PORT e il link di connessione al database dal file .env
 const PORT = process.env.PORT || 5002;
 const db = process.env.DB_URL;
@@ -27,7 +31,7 @@ const corsOptions = {
 };
 
 // Middleware per consentire le richieste CORS dal frontend
-app.use(cors(corsOptions));
+app.use(cors());
 
 // Middleware per analizzare i body delle richieste in formato JSON
 app.use(express.json());
@@ -36,6 +40,12 @@ app.use(express.json());
 app.get('/', (req, res) => {
     res.send("Server listening...")
 });
+
+// Routes di login 
+app.use('/', loginCompanyRoutes);
+
+// Routes a seguito dell'autenticazione
+app.use('/', jwtCompanyVerifier, companyRoutes);
 
 // Connessione al database MongoDB utilizzando Mongoose
 const connectDB = async () => {

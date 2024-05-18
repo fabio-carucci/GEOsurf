@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from 'bcrypt';
-import addressSchema from "./address";
+import addressSchema from "./address.js";
 
 const companySchema = new mongoose.Schema({
     nome: {
@@ -35,6 +35,14 @@ const companySchema = new mongoose.Schema({
     },
     websiteURL: {
         type: String, 
+        required: false
+    },
+    resetPasswordToken: {
+        type: String,
+        required: false
+    },
+    resetPasswordExpires: {
+        type: Date,
         required: false
     }
 });
