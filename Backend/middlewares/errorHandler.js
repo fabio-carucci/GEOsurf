@@ -1,5 +1,7 @@
-import { ValidationError } from 'mongoose';
+import pkg from 'mongoose';
 import jwt from 'jsonwebtoken';
+
+const { ValidationError } = pkg;
 
 // Middleware di gestione degli errori
 const errorHandler = (err, req, res, next) => {
