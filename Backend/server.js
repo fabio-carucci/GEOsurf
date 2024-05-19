@@ -7,6 +7,8 @@ import { configDotenv } from "dotenv";
 // Configuro dotenv per caricare le variabili d'ambiente dal file .env
 configDotenv();
 
+import errorHandler from './middlewares/errorHandler.js';
+
 import loginCompanyRoutes from './routes/companies/loginCompanyRoutes.js'
 import companyRoutes from './routes/companies/companyRoutes.js'
 import jwtCompanyVerifier from './middlewares/jwtCompanyVerifier.js';
@@ -46,6 +48,9 @@ app.use('/', loginCompanyRoutes);
 
 // Routes a seguito dell'autenticazione
 app.use('/', jwtCompanyVerifier, companyRoutes);
+
+// Middleware per la gestione degli errori
+app.use(errorHandler);
 
 // Connessione al database MongoDB utilizzando Mongoose
 const connectDB = async () => {
