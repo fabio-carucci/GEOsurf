@@ -5,37 +5,42 @@ import addressSchema from "./address.js";
 const companySchema = new mongoose.Schema({
     nome: {
         type: String,
-        required: true
+        required: [true, 'Il nome è obbligatorio']
     },
     email: {
         type: String,
-        required: true,
-        unique: true
+        required: [true, 'L\'email è obbligatoria'],
+        unique: true,
+        match: [/^\S+@\S+\.\S+$/, 'Per favore, utilizza un indirizzo email valido.']
     },
     password: {
         type: String,
-        required: true
+        required: [true, 'La password è obbligatoria']
     },
     partitaIVA: {
         type: String,
-        required: true,
-        unique: true
+        required: [true, 'La partita IVA è obbligatoria'],
+        unique: true,
+        match: [/^\d{11}$/, 'Per favore, utilizza una partita IVA valida']
     },
     indirizzo: {
         type: addressSchema,
-        required: true
+        required: [true, 'L\'indirizzo è obbligatorio']
     },
     telefono: {
         type: String,
-        required: false
+        required: false,
+        default: ''
     },
     logo: {
         type: String, 
-        required: false
+        required: false,
+        default: ''
     },
     websiteURL: {
         type: String, 
-        required: false
+        required: false,
+        default: ''
     },
     resetPasswordToken: {
         type: String,
@@ -43,15 +48,18 @@ const companySchema = new mongoose.Schema({
     },
     resetPasswordExpires: {
         type: Date,
-        required: false
+        required: false,
+        index: true // Aggiunge un indice su questo campo
     }
+}, {
+    timestamps: true // Aggiunge createdAt e updatedAt automaticamente
 });
 
 // Middleware di pre-save per hashare la password prima di salvarla nel database
 companySchema.pre('save', async function (next) {
     const company = this;
-    // Se la password non è stata modificata, continua
-    if (!company.isModified('password')) {
+    // Se la password non è stata modificata o non è presente, continua
+    if (!company.isModified('password') || !company.password) {
         return next();
     }
     try {
@@ -61,6 +69,7 @@ companySchema.pre('save', async function (next) {
         company.password = hashedPassword;
         next();
     } catch (error) {
+        console.error('Errore durante il hashing della password:', error);
         return next(error);
     }
 });
