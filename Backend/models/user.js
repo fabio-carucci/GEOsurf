@@ -1,20 +1,21 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
-import addressSchema from "./address";
+import addressSchema from './address.js';
 
 const userSchema = new mongoose.Schema({
     nome: {
         type: String,
-        required: true
+        required: [true, 'Il nome è obbligatorio']
     },
     cognome: {
         type: String,
-        required: true
+        required: [true, 'Il cognome è obbligatorio']
     },
     email: {
         type: String,
-        required: true,
-        unique: true
+        required: [true, 'L\'email è obbligatoria'],
+        unique: true,
+        match: [/^\S+@\S+\.\S+$/, 'Per favore, utilizza un indirizzo email valido']
     },
     dataDiNascita: {
         type: Date,
@@ -22,27 +23,40 @@ const userSchema = new mongoose.Schema({
     },
     avatar: {
         type: String,
-        required: false
+        required: false,
+        default: ''
     },
     password: {
         type: String,
         required: false
-    }, 
+    },
     googleId: {
         type: String,
-        required: false
-    }, 
+        required: false,
+        default: ''
+    },
     indirizzo: {
         type: addressSchema,
         required: false
+    },
+    resetPasswordToken: {
+        type: String,
+        required: false
+    },
+    resetPasswordExpires: {
+        type: Date,
+        required: false,
+        index: true // Aggiunge un indice su questo campo
     }
+}, {
+    timestamps: true // Aggiunge createdAt e updatedAt automaticamente
 });
 
 // Middleware di pre-save per hashare la password prima di salvarla nel database
 userSchema.pre('save', async function (next) {
     const user = this;
-    // Se la password non è stata modificata, continua
-    if (!user.isModified('password')) {
+    // Se la password non è stata modificata o non è presente, continua
+    if (!user.isModified('password') || !user.password) {
         return next();
     }
     try {
@@ -52,6 +66,7 @@ userSchema.pre('save', async function (next) {
         user.password = hashedPassword;
         next();
     } catch (error) {
+        console.error('Errore durante il hashing della password:', error);
         return next(error);
     }
 });
