@@ -1,7 +1,5 @@
-import pkg from 'mongoose';
+import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
-
-const { ValidationError } = pkg;
 
 // Middleware di gestione degli errori
 const errorHandler = (err, req, res, next) => {
@@ -9,7 +7,7 @@ const errorHandler = (err, req, res, next) => {
     console.error('Errore:', err);
 
     // Gestione degli errori di validazione di Mongoose
-    if (err instanceof ValidationError) {
+    if (err instanceof mongoose.Error.ValidationError) {
         return res.status(400).json({
             message: 'Errore di validazione',
             errors: Object.values(err.errors).map(e => e.message)

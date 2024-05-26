@@ -50,12 +50,12 @@ app.get('/', (req, res) => {
 });
 
 // Routes di login 
-app.use('/', loginCompanyRoutes);
-app.use('/', loginUserRoutes);
+app.use('/auth', loginCompanyRoutes);
+app.use('/auth', loginUserRoutes);
 
 // Routes a seguito dell'autenticazione
-app.use('/', jwtCompanyVerifier, companyRoutes);
-app.use('/', jwtUserVerifier, userRoutes);
+app.use('/company', jwtCompanyVerifier, companyRoutes);
+app.use('/user', jwtUserVerifier, userRoutes);
 
 // Middleware per la gestione degli errori
 app.use(errorHandler);

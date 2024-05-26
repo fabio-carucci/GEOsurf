@@ -55,6 +55,20 @@ const getUserProfile = async (req, res, next) => {
     }
 };
 
+// Metodo per aggiornare il token prima della scadenza
+const refreshUserToken = async (req, res) => {
+    try {
+        // Genera un nuovo token con lo stesso payload dell'utente attuale
+        const newToken = generateToken(req.user);
+
+        // Invia il nuovo token nella risposta
+        res.status(200).json({ token: newToken });
+    } catch (error) {
+        console.error("Errore durante l'aggiornamento del token:", error);
+        res.status(500).json({ message: "Errore durante l'aggiornamento del token" });
+    }
+};
+
 // Metodo per il login dell'utente
 const loginUser = async (req, res, next) => {
     try {
@@ -219,6 +233,7 @@ const resetPassword = async (req, res, next) => {
 export { 
     createUser, 
     getUserProfile, 
+    refreshUserToken,
     loginUser, 
     getUsers, 
     updateUser, 

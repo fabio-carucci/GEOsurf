@@ -52,7 +52,7 @@ const addressSchema = new mongoose.Schema({
                 validator: function(arr) {
                     return arr.length === 2;
                 },
-                message: 'Coordinates must be an array of two numbers [longitude, latitude]'
+                message: 'Coordinates must be an array of two numbers [latitude, longitude]'
             }
         }
     }

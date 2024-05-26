@@ -55,6 +55,20 @@ const getCompanyProfile = async (req, res, next) => {
     }
 };
 
+// Metodo per aggiornare il token prima della scadenza
+const refreshCompanyToken = async (req, res) => {
+    try {
+        // Genera un nuovo token con lo stesso payload dell'azienda attuale
+        const newToken = generateToken(req.company);
+
+        // Invia il nuovo token nella risposta
+        res.status(200).json({ token: newToken });
+    } catch (error) {
+        console.error("Errore durante l'aggiornamento del token:", error);
+        res.status(500).json({ message: "Errore durante l'aggiornamento del token" });
+    }
+};
+
 // Metodo per il login dell'azienda
 const loginCompany = async (req, res, next) => {
     try {
@@ -220,6 +234,7 @@ const resetPassword = async (req, res, next) => {
 export { 
     createCompany, 
     getCompanyProfile, 
+    refreshCompanyToken,
     loginCompany, 
     getCompanies, 
     updateCompany, 
