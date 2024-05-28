@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import sendMail from "../../sendMail.js";
 import { configDotenv } from "dotenv";
+import fetch from 'node-fetch';
 
 // Configuro dotenv per caricare le variabili d'ambiente dal file .env
 configDotenv();
@@ -30,11 +31,33 @@ const createCompany = async (req, res, next) => {
         const existingCompany = await Company.findOne({ email: req.body.email });
         if (existingCompany) {
             return res.status(400).json({ message: 'Email già esistente.' });
-        };
+        }
 
+        // Costruisci l'indirizzo completo
+        const { via, città, CAP, provincia, regione, paese } = req.body.indirizzo;
+        const address = `${via}, ${CAP} ${città}, ${provincia}, ${regione}, ${paese}`;
+
+        // Ottieni le coordinate dall'API di Nominatim
+        const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&format=json`);
+        const data = await response.json();
+
+        if (data.length === 0) {
+            return res.status(400).json({ message: 'Impossibile ottenere le coordinate per l\'indirizzo fornito.' });
+        }
+
+        const coordinates = [parseFloat(data[0].lat), parseFloat(data[0].lon)];
+
+        // Crea la nuova azienda con le coordinate ottenute
         const newCompany = await Company.create({
-            ...req.body, 
-            logo: logoCloudinaryURL
+            ...req.body,
+            logo: logoCloudinaryURL,
+            indirizzo: {
+                ...req.body.indirizzo,
+                location: {
+                    type: 'Point',
+                    coordinates
+                }
+            }
         });
 
         const token = generateToken(newCompany);
@@ -231,6 +254,27 @@ const resetPassword = async (req, res, next) => {
     }
 };
 
+const searchCompanyWithCoordinates = async (req, res, next) => {
+    const { lat, lon, radius } = req.query;
+    const radiusInKilometers = parseFloat(radius);
+    const coordinates = [parseFloat(lat), parseFloat(lon)];
+
+    try {
+        const companies = await Company.find({
+            "indirizzo.location": {
+                $geoWithin: {
+                    $centerSphere: [coordinates, radiusInKilometers / 6378.1]
+                }
+            }
+        });
+        res.json(companies);
+    } catch (error) {
+        console.error("Error:", error);
+        res.status(500).json({ error: 'Errore nella ricerca delle Aziende' });
+    }
+};
+
+
 export { 
     createCompany, 
     getCompanyProfile, 
@@ -242,5 +286,6 @@ export {
     updateCompanyLogo, 
     changeCompanyPW,
     sendMailResetPW,
-    resetPassword 
+    resetPassword,
+    searchCompanyWithCoordinates 
 };

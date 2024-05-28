@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import sendMail from "../../sendMail.js";
 import { configDotenv } from "dotenv";
+import fetch from "node-fetch";
 
 // Configuro dotenv per caricare le variabili d'ambiente dal file .env
 configDotenv();
@@ -22,7 +23,7 @@ function generateToken(user) {
 const createUser = async (req, res, next) => {
     try {
         let avatarCloudinaryURL = null;
-        if(req.file && req.file.path) {
+        if (req.file && req.file.path) {
             avatarCloudinaryURL = req.file.path;
         }
 
@@ -32,9 +33,34 @@ const createUser = async (req, res, next) => {
             return res.status(400).json({ message: 'Email già esistente.' });
         }
 
+        let address = req.body.indirizzo;
+        let coordinates = null;
+
+        if (address) {
+            const { via, città, CAP, provincia, regione, paese } = address;
+            const fullAddress = `${via}, ${CAP} ${città}, ${provincia}, ${regione}, ${paese}`;
+
+            // Ottieni le coordinate dall'API di Nominatim
+            const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(fullAddress)}&format=json`);
+            const data = await response.json();
+
+            if (data.length > 0) {
+                coordinates = [parseFloat(data[0].lat), parseFloat(data[0].lon)];
+            } else {
+                console.warn('Impossibile ottenere le coordinate per l\'indirizzo fornito.');
+            }
+        }
+
         const newUser = await User.create({
-            ...req.body, 
-            avatar: avatarCloudinaryURL
+            ...req.body,
+            avatar: avatarCloudinaryURL,
+            indirizzo: address ? {
+                ...address,
+                location: coordinates ? {
+                    type: 'Point',
+                    coordinates
+                } : undefined
+            } : undefined
         });
 
         const token = generateToken(newUser);
