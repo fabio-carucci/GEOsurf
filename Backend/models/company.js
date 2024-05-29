@@ -37,6 +37,11 @@ const companySchema = new mongoose.Schema({
         required: false,
         default: ''
     },
+    cover: {
+        type: String, 
+        required: false,
+        default: ''
+    },
     websiteURL: {
         type: String, 
         required: false,

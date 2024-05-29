@@ -177,6 +177,25 @@ const updateCompanyLogo = async (req, res, next) => {
     }
 };
 
+// Metodo per aggiungere/modificare l'url della cover dell'azienda
+const updateCompanyCover = async (req, res, next) => {
+    try {
+        const updatedCompany = await Company.findByIdAndUpdate(
+            req.company.id, 
+            { cover: req.file.path },
+            { new: true }
+        );
+        if (updatedCompany) {
+            res.status(200).json({ message: `La cover dell'azienda di nome ${updatedCompany.nome} è stato aggiornato correttamente` });
+        } else {
+            res.status(404).json({ message: 'Azienda non trovata.' });
+        }
+    } catch (err) {
+        console.error('Errore durante l\'aggiornamento del logo dell\'azienda:', err);
+        next(err);
+    }
+};
+
 // Metodo per aggiornare la password da parte dell'utente
 const changeCompanyPW = async (req, res, next) => {
     const { oldPassword, newPassword } = req.body;
@@ -284,6 +303,7 @@ export {
     updateCompany, 
     deleteCompany, 
     updateCompanyLogo, 
+    updateCompanyCover,
     changeCompanyPW,
     sendMailResetPW,
     resetPassword,
