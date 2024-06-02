@@ -28,7 +28,7 @@ export const AuthContextProvider = ({ children }) => {
         const tokenExpirationMinus10Minutes = exp - 600; // 600 secondi = 10 minuti
     
         // Se il timestamp attuale è maggiore del timestamp di scadenza meno 10 minuti,
-        // imposta sessionExpired a true e mostra il modal TokenExpirationAlert
+        // imposta sessionExpired a true e mostra il modal SessionExpirationAlert
         if (currentTime >= tokenExpirationMinus10Minutes) {
             setSessionExpired(true);
         }
@@ -46,7 +46,7 @@ export const AuthContextProvider = ({ children }) => {
         setIsLogged(true);
         localStorage.setItem("isLogged", "true"); // Memorizza lo stato di autenticazione nel localStorage
 
-        const endpoint = role === "user" ? "/user/userProfile" : "/company/companyProfile";
+        const endpoint = role === "user" ? "/user/userProfile" : "/company/myProfile";
 
         try {
             const response = await fetch(`${apiURL}${endpoint}`, {
@@ -128,7 +128,13 @@ export const AuthContextProvider = ({ children }) => {
     return (
         <AuthContext.Provider value={{ token, isLogged, role, user, login, logout }}>
             {children}
-            {sessionExpired && <SessionExpirationAlert logout={logout} role={role} token={token} setToken={setToken} setSessionExpired={setSessionExpired}/>}
+            {sessionExpired && <SessionExpirationAlert 
+                logout={logout} 
+                role={role} 
+                token={token} 
+                setToken={setToken} 
+                setSessionExpired={setSessionExpired} 
+                setIsSessionExpired={setIsSessionExpired}/>}
             {/* Mostra il toast quando sessionExpired è true */}
             {isSessionExpired && (
                 <div className="toast-container position-fixed top-0 end-0 p-3">

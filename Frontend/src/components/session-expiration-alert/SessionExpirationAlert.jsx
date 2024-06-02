@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
 
-export default function SessionExpirationAlert({ logout, role, token, setToken, setSessionExpired }) {
+export default function SessionExpirationAlert({ logout, role, token, setToken, setSessionExpired, setIsSessionExpired }) {
     const [countdown, setCountdown] = useState(30); // Tempo in secondi per il countdown
 
     // Funzione per chiudere il modal
@@ -49,6 +49,7 @@ export default function SessionExpirationAlert({ logout, role, token, setToken, 
     useEffect(() => {
         if (countdown === 0) {
         localStorage.setItem("isSessionExpired", true); // Salva sessionExpired nel localStorage 
+        setIsSessionExpired(true);
         
         handleClose(); // Chiudi il modal
         logout(); // Effettua il logout
