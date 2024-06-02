@@ -1,0 +1,60 @@
+.profile-container {
+    margin-top: 20px;
+}
+
+.profile-card {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid white;
+}
+
+.profile-card .card-body {
+    padding: 0;
+}
+
+.profile-title {
+    background-color: rgb(44, 73, 220);
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-bottom: 0px;
+    font-size: 20pt;
+}
+
+.profile-image-container {
+    text-align: center;
+    position: relative;
+    padding-right: 0;
+}
+
+.profile-logo {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    z-index: 1;
+}
+
+.profile-cover {
+    width: 100%;
+    object-fit: cover;
+    height: 300px;
+    position: relative;
+}
+
+.profile-info-container {
+    height: calc(100% - 79px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #f8f9fa;
+}
