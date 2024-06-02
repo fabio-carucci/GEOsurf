@@ -59,6 +59,7 @@ export default function SessionExpirationAlert({ logout, role, token, setToken, 
     // Funzione per gestire il click su "Rimani loggato"
     const handleStayLoggedIn = async () => {
         await refreshToken();
+        handleClose();
     };
 
     return (
@@ -75,7 +76,7 @@ export default function SessionExpirationAlert({ logout, role, token, setToken, 
             <Button variant="secondary" onClick={handleStayLoggedIn}>
                 Rimani loggato
             </Button>
-            <Button variant="primary" onClick={logout}>
+            <Button variant="primary" onClick={() => { logout(); handleClose(); }}>
                 Effettua il logout
             </Button>
         </Modal.Footer>

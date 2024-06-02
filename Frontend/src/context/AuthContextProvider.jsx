@@ -126,7 +126,7 @@ export const AuthContextProvider = ({ children }) => {
 
 
     return (
-        <AuthContext.Provider value={{ token, isLogged, role, user, login, logout }}>
+        <AuthContext.Provider value={{ token, isLogged, role, user, setUser, login, logout }}>
             {children}
             {sessionExpired && <SessionExpirationAlert 
                 logout={logout} 
