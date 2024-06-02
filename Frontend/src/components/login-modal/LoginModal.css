@@ -1,3 +1,7 @@
+#register-button {
+    cursor: pointer;
+}
+
 .hr-container {
     position: relative;
 }

@@ -11,8 +11,8 @@ export default function CustomNavbar() {
     const { isLogged, user, role, logout } = useAuth();
 
     return (
-        <Container bg="light">
-            <Navbar expand="lg" className='py-3'>
+        <Navbar expand="lg" className='py-3 custom-navbar'>
+            <Container>
                 <Navbar.Brand href="#home">
                     <img
                     src="#"
@@ -25,24 +25,24 @@ export default function CustomNavbar() {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link href="#home">Home</Nav.Link>
-                        <Nav.Link href="#link">Link</Nav.Link>
+                        <Nav.Link href="/" className='text-light'>Home</Nav.Link>
+                        <Nav.Link href="#link" className='text-light'>Link</Nav.Link>
                     </Nav>
-                    {isLogged && <NavDropdown title={user?.nome} id="basic-nav-dropdown" align="end">
+                    {isLogged && <NavDropdown title={user?.nome} id="basic-nav-dropdown" align="end" style={{color: "white"}}>
                         <NavDropdown.Item href="#action/3.1">Profilo</NavDropdown.Item>
                         <NavDropdown.Item href="#action/3.2">Preferiti</NavDropdown.Item>
                         <NavDropdown.Item href="#action/3.3">Tema</NavDropdown.Item>
                         <NavDropdown.Divider />
                         <NavDropdown.Item className='text-danger fw-bold' onClick={() => logout()}>Logout</NavDropdown.Item>
                     </NavDropdown>}
-                    {!isLogged && <Button variant="outline-success px-4" className="ms-3" onClick={() => setModalShow(true)}>Login</Button>}
+                    {!isLogged && <Button variant="outline-light px-4" className="ms-3" onClick={() => setModalShow(true)}>Login</Button>}
                     <LoginModal
                         show={modalShow}
                         onHide={() => setModalShow(false)}
-                        dialogClassName="modal-40w"
+                        dialogClassName="custom-modal"
                     />
                 </Navbar.Collapse>
-            </Navbar>
-        </Container>
+            </Container>
+        </Navbar>
     );
 }

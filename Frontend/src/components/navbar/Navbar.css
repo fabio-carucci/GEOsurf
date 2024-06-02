@@ -1,3 +1,31 @@
 .modal-40w {
     width: 40%;
 }
+
+.custom-navbar {
+    background-color: rgb(44, 73, 220);
+}
+
+  
+@media (max-width: 768px) {
+    .custom-modal {
+        width: 90vw; /* Larghezza del modal al 90% della larghezza dello schermo su dispositivi mobili */
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+}
+
+@media screen and (min-width: 769px) and (max-width: 992px) {
+    .custom-modal {
+        width: 70vw; /* Larghezza del modal al 70% della larghezza dello schermo su dispositivi con larghezza tra 786px e 992px */
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+}  
+
+@media screen and (min-width: 993px) {
+    .custom-modal {
+        width: 40vw; /* Larghezza del modal al 70% della larghezza dello schermo su dispositivi con larghezza tra 786px e 992px */
+    }
+}
+ 
