@@ -76,6 +76,7 @@ const getUserProfile = async (req, res, next) => {
     try {
         // Seleziona solo i campi desiderati dall'oggetto req.user
         const userProfile = {
+            id: req.user._id,
             nome: req.user.nome,
             cognome: req.user.cognome,
             email: req.user.email,

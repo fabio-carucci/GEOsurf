@@ -76,6 +76,7 @@ const getCompanyProfile = async (req, res, next) => {
     try {
         // Seleziona solo i campi desiderati dall'oggetto req.company
         const companyProfile = {
+            id: req.company._id,
             nome: req.company.nome,
             email: req.company.email,
             indirizzo: req.company.indirizzo, 
@@ -181,7 +182,7 @@ const updateCompanyLogo = async (req, res, next) => {
             { new: true }
         );
         if (updatedCompany) {
-            res.status(200).json({ message: `Il logo dell'azienda di nome ${updatedCompany.nome} è stato aggiornato correttamente` });
+            res.status(200).json({ message: `Il logo dell'azienda di nome ${updatedCompany.nome} è stato aggiornato correttamente`, updatedCompany });
         } else {
             res.status(404).json({ message: 'Azienda non trovata.' });
         }
@@ -200,7 +201,7 @@ const updateCompanyCover = async (req, res, next) => {
             { new: true }
         );
         if (updatedCompany) {
-            res.status(200).json({ message: `La cover dell'azienda di nome ${updatedCompany.nome} è stato aggiornato correttamente` });
+            res.status(200).json({ message: `La cover dell'azienda di nome ${updatedCompany.nome} è stato aggiornato correttamente`, updatedCompany });
         } else {
             res.status(404).json({ message: 'Azienda non trovata.' });
         }

@@ -3,6 +3,7 @@ import { Container, Navbar, Nav, NavDropdown, Button } from 'react-bootstrap';
 import './Navbar.css';
 import LoginModal from '../login-modal/LoginModal';
 import { useAuth } from '../../context/AuthContextProvider';
+import logo from '../../assets/placeholderLOGO.jpg'
 
 export default function CustomNavbar() {
 
@@ -15,11 +16,12 @@ export default function CustomNavbar() {
             <Container>
                 <Navbar.Brand href="#home">
                     <img
-                    src="#"
-                    width="30"
-                    height="30"
+                    src={logo}
+                    width="50"
+                    height="50"
                     className="d-inline-block align-top"
                     alt="Logo"
+                    style={{borderRadius: "50%", border: "3px solid white"}}
                     />
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -28,9 +30,10 @@ export default function CustomNavbar() {
                         <Nav.Link href="/" className='text-light'>Home</Nav.Link>
                         <Nav.Link href="#link" className='text-light'>Link</Nav.Link>
                     </Nav>
-                    {isLogged && <NavDropdown title={user?.nome} id="basic-nav-dropdown" align="end" style={{color: "white"}}>
-                        <NavDropdown.Item href="#action/3.1">Profilo</NavDropdown.Item>
-                        <NavDropdown.Item href="#action/3.2">Preferiti</NavDropdown.Item>
+                    {isLogged && <NavDropdown title={`${user?.nome || ""} ${user?.cognome || ""}`} id="basic-nav-dropdown" align="end" style={{color: "white"}}>
+                        {role === "company" && <NavDropdown.Item href={`/companyProfile/${user?.id}`}>Profilo</NavDropdown.Item>}
+                        {role === "user" && <NavDropdown.Item disabled>{user?.email}</NavDropdown.Item>}
+                        {role === "user" && <NavDropdown.Item>Preferiti</NavDropdown.Item>}
                         <NavDropdown.Item href="#action/3.3">Tema</NavDropdown.Item>
                         <NavDropdown.Divider />
                         <NavDropdown.Item className='text-danger fw-bold' onClick={() => logout()}>Logout</NavDropdown.Item>
