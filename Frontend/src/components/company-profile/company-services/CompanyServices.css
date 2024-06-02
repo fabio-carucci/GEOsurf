@@ -1,0 +1,47 @@
+.services-carousel-container {
+    width: 100%;
+    max-width: 70%;
+    margin: auto;
+}
+
+.custom-carousel-list {
+    height: 200px;
+}
+
+.react-multiple-carousel__arrow {
+    background-color: rgb(44, 73, 220);
+}
+
+.react-multiple-carousel__arrow:hover {
+    background-color: rgba(44, 73, 220, 0.684);
+}
+
+.service-box {
+    width: 150px;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    text-align: center;
+    margin: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid white;
+    transition: all 0.3s ease-in-out;
+}
+
+.service-box:hover {
+    transform: scale(1.05);
+}
+
+.service-icon {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+.service-name {
+    font-size: 16px;
+    color: rgb(44, 73, 220);
+}
