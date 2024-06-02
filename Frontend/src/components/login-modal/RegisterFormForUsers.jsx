@@ -53,7 +53,7 @@ export default function RegisterFormForUsers({ onHide, setIsRegistering }) {
             setError('Errore di connessione al server');
             console.error('Error during fetch:', error);
         } finally {
-            setIsRegistering();
+            setIsRegistering(false);
         }
     };
 

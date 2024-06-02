@@ -7,11 +7,18 @@ import RegisterForm from './RegisterForm';
 export default function LoginModal(props) {
   const [isRegistering, setIsRegistering] = useState(false);
 
+  // Funzione per chiudere il modal e resettare lo stato di registrazione
+  const handleClose = () => {
+    props.onHide();
+    setIsRegistering(false);
+  };
+
   return (
     <Modal
       {...props}
       aria-labelledby="contained-modal-title-vcenter"
       centered
+      onHide={handleClose} // Usa la nuova funzione handleClose
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
@@ -20,8 +27,8 @@ export default function LoginModal(props) {
       </Modal.Header>
       <Modal.Body>
         {/* Form differente se sta facendo il login o il signup */}
-        {!isRegistering && <LoginForm onHide={props.onHide}/>}
-        {isRegistering && <RegisterForm onHide={props.onHide} setIsRegistering={()=>setIsRegistering(false)}/>}
+        {!isRegistering && <LoginForm onHide={handleClose} />}
+        {isRegistering && <RegisterForm onHide={handleClose} setIsRegistering={() => setIsRegistering(false)} />}
 
         {/* Link per la registrazione */}
         <div className="text-center mt-2">
@@ -29,20 +36,20 @@ export default function LoginModal(props) {
         </div>
 
         {/* Divisore orizzontale con testo "oppure" */}
-        {!isRegistering && 
-        <div className="hr-container">
-          <span>oppure</span>
-          <hr />
-        </div>}
+        {!isRegistering &&
+          <div className="hr-container">
+            <span>oppure</span>
+            <hr />
+          </div>}
 
         {/* Bottone per il login con Google */}
         {!isRegistering &&
-        <div className="text-center">
-          <Button variant="outline-danger" className="mt-2 px-4">Accedi con Google</Button>
-        </div>}
+          <div className="text-center">
+            <Button variant="outline-danger" className="mt-2 px-4">Accedi con Google</Button>
+          </div>}
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={props.onHide}>Chiudi</Button>
+        <Button onClick={handleClose}>Chiudi</Button>
       </Modal.Footer>
     </Modal>
   );
