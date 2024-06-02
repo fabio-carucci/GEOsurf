@@ -72,6 +72,7 @@
     justify-content: center;
     align-items: center;
     background-color: #f8f9fa;
+    position: relative;
 }
 
 .small-modal-image {
@@ -95,4 +96,22 @@
     justify-content: center;
     align-items: center;
     text-shadow: 0px 0px 2px rgb(44, 73, 220);
+}
+
+.custom-pensquare {
+    cursor: pointer;
+    font-size: 10pt;
+    color: rgb(44, 73, 220);
+    align-self: center;
+}
+
+.custom-modified-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: absolute;
+    bottom: 5px;
+    right: 10px;
+    cursor: pointer;
+    color: rgb(44, 73, 220);
 }

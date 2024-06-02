@@ -31,7 +31,7 @@ export default function CustomNavbar() {
                         <Nav.Link href="#link" className='text-light'>Link</Nav.Link>
                     </Nav>
                     {isLogged && <NavDropdown title={`${user?.nome || ""} ${user?.cognome || ""}`} id="basic-nav-dropdown" align="end" style={{color: "white"}}>
-                        {role === "company" && <NavDropdown.Item href={`/companyProfile/${user?.id}`}>Profilo</NavDropdown.Item>}
+                        {role === "company" && <NavDropdown.Item href={`/companyProfile/${user?._id}`}>Profilo</NavDropdown.Item>}
                         {role === "user" && <NavDropdown.Item disabled>{user?.email}</NavDropdown.Item>}
                         {role === "user" && <NavDropdown.Item>Preferiti</NavDropdown.Item>}
                         <NavDropdown.Item href="#action/3.3">Tema</NavDropdown.Item>

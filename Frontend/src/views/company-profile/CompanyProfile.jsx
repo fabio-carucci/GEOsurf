@@ -51,7 +51,7 @@ const CompanyProfile = () => {
     return (
         <>
             <CompanyProfileInfo 
-                company={company}
+                myCompany={company}
             />
             <CompanyServices 
                 services={company.servizi}

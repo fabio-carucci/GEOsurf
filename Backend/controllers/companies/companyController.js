@@ -74,19 +74,7 @@ const createCompany = async (req, res, next) => {
 // Metodo per ottenere il profilo dell'azienda autenticato tramite token
 const getCompanyProfile = async (req, res, next) => {
     try {
-        // Seleziona solo i campi desiderati dall'oggetto req.company
-        const companyProfile = {
-            id: req.company._id,
-            nome: req.company.nome,
-            email: req.company.email,
-            indirizzo: req.company.indirizzo, 
-            telefono: req.company.telefono,
-            logo: req.company.logo,
-            cover: req.company.cover, 
-            websiteURL: req.company.websiteURL,
-            servizi: req.company.servizi
-        };
-        res.status(200).json(companyProfile);
+        res.status(200).json(req.company);
     } catch (error) {
         console.error('Errore durante il recupero del profilo dell\'azienda:', error);
         next(error);
