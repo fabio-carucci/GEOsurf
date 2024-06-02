@@ -361,7 +361,7 @@ const updateCompanyServices = async (req, res, next) => {
         req.company.servizi = updatedServices;
         const updatedCompany = await req.company.save();
 
-        res.status(200).json({ message: `I servizi dell'azienda di nome ${updatedCompany.nome} sono stati aggiornati correttamente` });
+        res.status(200).json({ message: `I servizi dell'azienda di nome ${updatedCompany.nome} sono stati aggiornati correttamente`, updatedCompany });
     } catch (err) {
         console.error('Errore durante l\'aggiornamento dei servizi dell\'azienda:', err);
         next(err);

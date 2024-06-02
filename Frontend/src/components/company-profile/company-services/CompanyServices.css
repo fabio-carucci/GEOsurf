@@ -45,3 +45,22 @@
     font-size: 16px;
     color: rgb(44, 73, 220);
 }
+
+.no-services-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px; /* Imposta l'altezza desiderata */
+    font-size: 18px;
+    color: #555; /* Colore del testo */
+}
+
+.custom-modified-services {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    color: rgb(44, 73, 220);
+}

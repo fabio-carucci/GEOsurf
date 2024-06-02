@@ -54,7 +54,9 @@ const CompanyProfile = () => {
                 myCompany={company}
             />
             <CompanyServices 
+                companyID={id}
                 services={company.servizi}
+                setCompany={setCompany}
             />
         </>
     );
