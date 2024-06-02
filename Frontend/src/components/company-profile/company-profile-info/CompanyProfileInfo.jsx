@@ -43,29 +43,9 @@ const CompanyProfileInfo = ({ myCompany }) => {
 
     useEffect(()=>{
         if (itsME) {
-            fetchMyProfile();
+            setFormData(user);
         }
     }, [itsME]);
-
-    const fetchMyProfile = async () => {
-        try {
-            const response = await fetch(`${apiURL}/company/myProfile`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                },
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                setCompany(data); // Imposta i nuovi dati dell'azienda ottenuti dalla chiamata
-                setFormData(data);
-            } else {
-                console.error('Failed to fetch company profile');
-            }
-        } catch (error) {
-            console.error('Error fetching company profile:', error);
-        }
-    };
 
     async function handleImageUpdate (imageType) {
         try {
@@ -263,7 +243,7 @@ const CompanyProfileInfo = ({ myCompany }) => {
                                             : '-'
                                         }
                                     </Card.Text>                        
-                                    {itsME && <Card.Text className='mb-0'><strong>Partita IVA:</strong> {company.partitaIVA}</Card.Text>}
+                                    {itsME && <Card.Text className='mb-0'><strong>Partita IVA:</strong> {user?.partitaIVA}</Card.Text>}
                                     {itsME && (
                                         <div className='custom-modified-info' onClick={() => setEditingModalShow(true)}>
                                             <div>Modifica i dati anagrafici</div>
