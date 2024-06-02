@@ -2,9 +2,8 @@ import React from 'react';
 import { Container, Row, Col, Card, Placeholder, Spinner } from 'react-bootstrap';
 import './CompanyList.css';
 import { Link } from 'react-router-dom';
-
-const placeholderImage = 'https://via.placeholder.com/200x150'; // Link to a placeholder image
-const placeholderLogo = 'https://via.placeholder.com/60'; // Link to a placeholder logo
+import placeholderLogo from '../../assets/placeholderLOGO.jpg';
+import placeholderImage from '../../assets/placeholderCOVER.jpg';
 
 function CompanyList({ results, searchPerformed, loading }) {
     return (
@@ -37,7 +36,7 @@ function CompanyList({ results, searchPerformed, loading }) {
                                     </div>
                                 </div>
                                 <Card.Body className='text-center'>
-                                    <Card.Title as={Link} to={`/companyProfile/${company._id}`} className="text-center">{company.nome}</Card.Title>
+                                    <Card.Title as={Link} target='_blank' to={`/companyProfile/${company._id}`} className="text-center">{company.nome}</Card.Title>
                                     <Card.Text className="text-center">
                                         {company.indirizzo.via}, {company.indirizzo.città}, {company.indirizzo.paese}
                                     </Card.Text>
