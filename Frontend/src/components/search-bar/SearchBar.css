@@ -1,0 +1,117 @@
+.searchbar-container {
+    background-color: rgb(44, 73, 220);
+    padding-top: 50px;
+    padding-bottom: 75px;
+    transition: padding 0.7s ease-in-out;
+}
+
+.searchbar-reduced {
+    padding-top: 5px;
+    padding-bottom: 10px;
+}
+
+.searchbar-title {
+    transition: all 0.7s ease-in-out;
+    padding-bottom: 20px;
+    font-size: 20pt;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+}
+
+.searchbar-title-reduced {
+    font-size: 12pt;
+    padding: 0;
+}
+
+.custom-range {
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 3px;
+    border: 1px solid rgb(44, 73, 220);
+    background: white;
+    outline: none;
+    opacity: 1;
+    transition: opacity 0.2s;
+}
+
+.custom-range:hover {
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.custom-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: rgb(44, 73, 220);
+    cursor: pointer;
+    border: 1px solid white;
+    border-radius: 50%;
+}
+
+.custom-range::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: rgb(44, 73, 220);
+    cursor: pointer;
+    border-radius: 50%;
+    border: 1px solid white;
+}
+
+.custom-input {
+    border: 1px solid white;
+    border-radius: 5px; /* Applica il border-radius completo */
+    padding: 8px;
+    outline: none;
+    background-color: whitesmoke;
+}
+
+.custom-input:focus {
+    box-shadow: 0 0 2px white;
+    background-color: whitesmoke;
+}
+
+.input-group-custom {
+    position: relative; /* Posizionamento relativo per il contenitore dell'input group */
+}
+
+.clear-icon {
+    position: absolute;
+    right: -25px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: whitesmoke;
+    cursor: pointer;
+}
+
+.custom-button {
+    border: 1px solid white;
+    border-radius: 5px; /* Applica il border-radius completo */
+    padding: 8px 16px;
+    background-color: rgb(44, 73, 220);
+    color: white;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    margin-left: -1px; /* Per evitare la doppia larghezza del bordo */
+}
+
+.custom-button:hover {
+    background-color: whitesmoke;
+    border: 1px solid whitesmoke;
+    color: rgb(44, 73, 220);
+}
+
+.custom-button:focus {
+    outline: none;
+}
+
+.custom-button:active, .custom-button:disabled {
+    background-color: rgb(44, 73, 220) !important;
+    color: white !important;
+    border: 1px solid white !important;
+}
+
+.custom-check {
+    font-size: 1rem;
+}

@@ -1,11 +1,27 @@
 import './Homepage.css';
-import React from 'react';
+import React, { useState } from 'react';
+import SearchBar from '../../components/search-bar/SearchBar';
+import CompanyList from '../../components/company-list/CompanyList'
 
 export default function Homepage() {
+    const [searchResults, setSearchResults] = useState([]);
+    const [searchPerformed, setSearchPerformed] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     return (
         <div>
-            Homepage
+            <SearchBar 
+                onSearchResults={setSearchResults} 
+                searchPerformed={searchPerformed} 
+                setSearchPerformed={setSearchPerformed}
+                loading={loading}
+                setLoading={setLoading}
+            />
+            <CompanyList 
+                results={searchResults} 
+                searchPerformed={searchPerformed}
+                loading={loading}
+            />
         </div>
     )
 }
