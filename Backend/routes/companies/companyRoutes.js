@@ -1,18 +1,12 @@
 import express from 'express';
-import { getCompanyProfile, refreshCompanyToken, getCompanies, updateCompany, deleteCompany, updateCompanyLogo, updateCompanyCover, changeCompanyPW } from '../../controllers/companies/companyController.js';
-import { uploadCompanyLogo, uploadCompanyCover } from '../../middlewares/multer.js';
+import { searchCompanyWithCoordinates, getCompanies, getCompanyById } from '../../controllers/companies/companyController.js';
 
 const router = express.Router();
 
 // Definizione delle route
 router
-    .get('/companyProfile', getCompanyProfile) // Route GET per ottenere il profilo dell'azienda corrente
-    .post('/refreshCompanyToken', refreshCompanyToken) // Route POST per refreshare il token scaduto
+    .get('/searchCompanies', searchCompanyWithCoordinates) // Route GET per cercare le aziende tramite coordinate e raggio
     .get('/companies', getCompanies) // Route GET per ottenere la lista delle aziende registrate
-    .put('/updateCompany', updateCompany) // Route PUT per aggiornare l'azienda corrente
-    .delete('/deleteCompany', deleteCompany) // Route DELETE per eliminare l'azienda corrente
-    .patch('/updateCompanyLogo', uploadCompanyLogo, updateCompanyLogo) // Route PATCH per aggiornare il logo dell'azienda
-    .patch('/updateCompanyCover', uploadCompanyCover, updateCompanyCover) // Route PATCH per aggiornare la cover dell'azienda
-    .put('/changeCompanyPW', changeCompanyPW) // Route PUT per cambiare la password
+    .get('/companyProfile/:id', getCompanyById) // Route GET per ottenere il profilo dell'azienda tramite params id
 
 export default router;

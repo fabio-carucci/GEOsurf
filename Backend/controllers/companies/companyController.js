@@ -23,7 +23,7 @@ function generateToken(company) {
 const createCompany = async (req, res, next) => {
     try {
         let logoCloudinaryURL = null;
-        if(req.file && req.file.path) {
+        if (req.file && req.file.path) {
             logoCloudinaryURL = req.file.path;
         }
 
@@ -33,8 +33,11 @@ const createCompany = async (req, res, next) => {
             return res.status(400).json({ message: 'Email già esistente.' });
         }
 
+        // Analizza l'oggetto indirizzo dal corpo della richiesta
+        const indirizzo = JSON.parse(req.body.indirizzo);
+
         // Costruisci l'indirizzo completo
-        const { via, città, CAP, provincia, regione, paese } = req.body.indirizzo;
+        const { via, città, CAP, provincia, regione, paese } = indirizzo;
         const address = `${via}, ${CAP} ${città}, ${provincia}, ${regione}, ${paese}`;
 
         // Ottieni le coordinate dall'API di Nominatim
@@ -50,28 +53,39 @@ const createCompany = async (req, res, next) => {
         // Crea la nuova azienda con le coordinate ottenute
         const newCompany = await Company.create({
             ...req.body,
-            logo: logoCloudinaryURL,
             indirizzo: {
-                ...req.body.indirizzo,
+                ...indirizzo,
                 location: {
                     type: 'Point',
                     coordinates
                 }
-            }
+            },
+            logo: logoCloudinaryURL,
         });
 
         const token = generateToken(newCompany);
-        res.json({ token });
+        res.json({ token, id: newCompany._id });
     } catch (error) {
         console.error('Errore durante la creazione dell\'azienda:', error);
-        next(error); // Usa il middleware di gestione degli errori
+        next(error);
     }
 };
 
 // Metodo per ottenere il profilo dell'azienda autenticato tramite token
 const getCompanyProfile = async (req, res, next) => {
     try {
-        res.status(200).json(req.company);
+        // Seleziona solo i campi desiderati dall'oggetto req.company
+        const companyProfile = {
+            nome: req.company.nome,
+            email: req.company.email,
+            indirizzo: req.company.indirizzo, 
+            telefono: req.company.telefono,
+            logo: req.company.logo,
+            cover: req.company.cover, 
+            websiteURL: req.company.websiteURL,
+            servizi: req.company.servizi
+        };
+        res.status(200).json(companyProfile);
     } catch (error) {
         console.error('Errore durante il recupero del profilo dell\'azienda:', error);
         next(error);
@@ -273,6 +287,7 @@ const resetPassword = async (req, res, next) => {
     }
 };
 
+// Metodo per cercare le aziende che si trovano entro un certo raggio di distanza da coordinate
 const searchCompanyWithCoordinates = async (req, res, next) => {
     const { lat, lon, radius } = req.query;
     const radiusInKilometers = parseFloat(radius);
@@ -293,7 +308,78 @@ const searchCompanyWithCoordinates = async (req, res, next) => {
     }
 };
 
+// Metodo per trovare l'azienda tramite id
+const getCompanyById = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const company = await Company.findById(id);
+        if (!company) {
+            return res.status(404).json({ message: 'Azienda non trovata.' });
+        }
+        // Creare un oggetto con solo i campi desiderati
+        const companyData = {
+            nome: company.nome,
+            email: company.email,
+            indirizzo: company.indirizzo,
+            telefono: company.telefono,
+            logo: company.logo,
+            cover: company.cover,
+            websiteURL: company.websiteURL,
+            servizi: company.servizi
+        };
+        res.status(200).json(companyData);
+    } catch (error) {
+        console.error('Errore durante il recupero dell\'azienda tramite ID:', error);
+        next(error); // Usa il middleware di gestione degli errori
+    }
+};
 
+// Metodo per aggiornare i servizi dell'azienda
+const updateCompanyServices = async (req, res, next) => {
+    try {
+        // Lista dei servizi ricevuti dal body della richiesta
+        const servicesToUpdate = req.body.services;
+
+        // Lista dei servizi attualmente disponibili nell'azienda
+        let updatedServices = req.company.servizi || [];
+
+        // Mappatura dei nomi dei servizi con le rispettive icone
+        const serviceIconsMap = {
+            'Corsi Surf': '🏄‍♂️',
+            'Noleggio Attrezzatura': '🏄‍♀️',
+            'Corsi Kitesurf': '🪂',
+            'Rimessaggio Tavole': '🛶',
+            'Esperienze Outdoor': '⛰️',
+            'Corsi Windsurf': '🪁',
+            'Yoga SUP': '🧘🏼‍♀️',
+            'Corsi Skate': '🛹',
+            'Academy': '🎓',
+            'Surf trips': '🛩️'
+        };
+
+        // Aggiungi nuovi servizi alla lista dei servizi dell'azienda
+        servicesToUpdate.forEach(service => {
+            if (!updatedServices.find(s => s.nome === service)) {
+                // Servizio non presente, aggiungilo con l'icona corrispondente
+                updatedServices.push({ nome: service, icona: serviceIconsMap[service] || '' });
+            }
+        });
+
+        // Rimuovi servizi dalla lista se non sono più selezionati
+        updatedServices = updatedServices.filter(service => servicesToUpdate.includes(service.nome));
+
+        // Aggiorna i servizi dell'azienda
+        req.company.servizi = updatedServices;
+        const updatedCompany = await req.company.save();
+
+        res.status(200).json({ message: `I servizi dell'azienda di nome ${updatedCompany.nome} sono stati aggiornati correttamente` });
+    } catch (err) {
+        console.error('Errore durante l\'aggiornamento dei servizi dell\'azienda:', err);
+        next(err);
+    }
+};
+
+// Esportazione di tutti i metodi
 export { 
     createCompany, 
     getCompanyProfile, 
@@ -307,5 +393,7 @@ export {
     changeCompanyPW,
     sendMailResetPW,
     resetPassword,
-    searchCompanyWithCoordinates 
+    searchCompanyWithCoordinates,
+    getCompanyById,
+    updateCompanyServices
 };

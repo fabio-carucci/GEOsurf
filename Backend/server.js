@@ -11,8 +11,9 @@ import errorHandler from './middlewares/errorHandler.js';
 
 // Importo le routes delle aziende
 import loginCompanyRoutes from './routes/companies/loginCompanyRoutes.js';
-import companyRoutes from './routes/companies/companyRoutes.js';
+import protectedCompanyRoutes from './routes/companies/protectedCompanyRoutes.js';
 import jwtCompanyVerifier from './middlewares/jwtCompanyVerifier.js';
+import companyRoutes from './routes/companies/companyRoutes.js'
 
 //Importo le routes degli utenti
 import loginUserRoutes from './routes/users/loginUserRoutes.js';
@@ -53,8 +54,11 @@ app.get('/', (req, res) => {
 app.use('/auth', loginCompanyRoutes);
 app.use('/auth', loginUserRoutes);
 
+// Routes generali
+app.use('/', companyRoutes);
+
 // Routes a seguito dell'autenticazione
-app.use('/company', jwtCompanyVerifier, companyRoutes);
+app.use('/company', jwtCompanyVerifier, protectedCompanyRoutes);
 app.use('/user', jwtUserVerifier, userRoutes);
 
 // Middleware per la gestione degli errori
