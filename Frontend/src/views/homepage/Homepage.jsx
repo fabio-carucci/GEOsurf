@@ -2,6 +2,7 @@ import './Homepage.css';
 import React, { useState } from 'react';
 import SearchBar from '../../components/search-bar/SearchBar';
 import CompanyList from '../../components/company-list/CompanyList'
+import NewsList from '../../components/news-list/NewsList';
 
 export default function Homepage() {
     const [searchResults, setSearchResults] = useState([]);
@@ -22,6 +23,7 @@ export default function Homepage() {
                 searchPerformed={searchPerformed}
                 loading={loading}
             />
+            <NewsList />
         </div>
     )
 }
