@@ -62,13 +62,21 @@ export default function SearchBar({ onSearchResults, searchPerformed, setSearchP
     return (
         <div className={`searchbar-container ${searchPerformed ? 'searchbar-reduced' : ''}`}>
             <Container>
-                <h2 className={`searchbar-title ${searchPerformed ? 'searchbar-title-reduced' : ''}`}>Cerca la tua destinazione</h2>
+                <div className='d-flex align-items-center flex-column'>
+                    <h2 className={`searchbar-title ${searchPerformed ? 'searchbar-title-reduced' : ''}`}>
+                        Scopri le Migliori Destinazioni per il Surf nel Mondo
+                    </h2>
+                    <p className={`searchbar-description ${searchPerformed ? 'searchbar-description-reduced' : ''}`}>
+                        Benvenuto su GEOsurf, il tuo punto di riferimento per trovare le destinazioni perfette per il surf. Che tu sia un principiante o un surfista esperto, il nostro sito ti aiuterà a scoprire i luoghi più affascinanti e le onde più entusiasmanti. 
+                        <br/>Inserisci la posizione che preferisci, seleziona la distanza e trova il prossimo spot da esplorare!
+                    </p>
+                </div>
                 <Form onSubmit={handleSearch}>
                     <div className='d-flex justify-content-center'>
                         <InputGroup className="mb-3 input-group-custom" style={{ width: "80%" }}>
                             <Form.Control
                                 type="text" 
-                                placeholder="Inserisci l'indirizzo completo" 
+                                placeholder="Inserisci l'indirizzo che preferisci" 
                                 value={address}
                                 onChange={(e) => setAddress(e.target.value)}
                                 className="custom-input"
@@ -91,7 +99,7 @@ export default function SearchBar({ onSearchResults, searchPerformed, setSearchP
                     </div>
                     <div className='d-flex justify-content-center'>
                         <Form.Group controlId="distance" className="d-flex align-items-center ms-lg-3 flex-column flex-lg-row" style={{width: "70%"}}>
-                            <Form.Label className="mb-3 mb-lg-1 mr-2 flex-shrink-0 text-white" style={{ minWidth: '150px' }}>
+                            <Form.Label className="mb-3 mb-lg-1 mr-2 flex-shrink-0" style={{ minWidth: '150px', color:"rgb(250, 243, 230)" }}>
                                 Raggio di {distance} Km
                             </Form.Label>
                             <Form.Control 

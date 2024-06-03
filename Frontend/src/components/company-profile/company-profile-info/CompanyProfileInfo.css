@@ -7,7 +7,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     position: relative;
     overflow: hidden;
-    border: 1px solid white;
+    border: 1px solid rgb(246, 230, 206);
 }
 
 .profile-card .card-body {
@@ -15,8 +15,8 @@
 }
 
 .profile-title {
-    background-color: rgb(44, 73, 220);
-    color: white;
+    background-color: rgb(9, 25, 49);
+    color: rgb(246, 230, 206);
     text-align: center;
     padding: 20px;
     margin-bottom: 0px;
@@ -37,9 +37,9 @@
     left: 50%;
     transform: translate(-50%, -50%);
     border-radius: 50%;
-    border: 3px solid white;
+    border: 3px solid rgb(246, 230, 206);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    background-color: white;
+    background-color: rgb(246, 230, 206);
     z-index: 1;
 }
 
@@ -51,7 +51,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: rgba(0, 0, 0, 0.3);
-    color: white;
+    color: rgb(246, 230, 206);
     border-radius: 50%;
     padding: 5px;
     cursor: pointer;
@@ -71,7 +71,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #f8f9fa;
+    background-color: rgb(250, 243, 230);
     position: relative;
 }
 
@@ -88,20 +88,20 @@
     position: absolute;
     bottom: 0;
     width: 100%;
-    color: white;
+    color: rgb(9, 25, 49);
     text-align: center;
     padding: 10px 0;
     font-weight: bold;
     display: flex;
     justify-content: center;
     align-items: center;
-    text-shadow: 0px 0px 2px rgb(44, 73, 220);
+    text-shadow: 0px 0px 2px rgb(250, 243, 230);
 }
 
 .custom-pensquare {
     cursor: pointer;
     font-size: 10pt;
-    color: rgb(44, 73, 220);
+    color: rgb(9, 25, 49);
     align-self: center;
 }
 
@@ -113,5 +113,5 @@
     bottom: 5px;
     right: 10px;
     cursor: pointer;
-    color: rgb(44, 73, 220);
+    color: rgb(9, 25, 49);
 }

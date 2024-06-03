@@ -3,9 +3,25 @@
 }
 
 .custom-navbar {
-    background-color: rgb(44, 73, 220);
+    background-color: rgb(9, 25, 49);
 }
 
+.dropdown-item {
+    color: rgb(9, 25, 49);
+}
+
+.dropdown-item:hover {
+    background-color: rgb(243, 230, 205);
+}
+
+.dropdown-item:focus, .dropdown-item:active {
+    background-color: rgb(9, 25, 49);
+    color: rgb(250, 243, 230);
+}
+
+.dropdown-menu.show {
+    background-color: rgb(250, 243, 230);
+}
   
 @media (max-width: 768px) {
     .custom-modal {
@@ -28,4 +44,9 @@
         width: 40vw; /* Larghezza del modal al 70% della larghezza dello schermo su dispositivi con larghezza tra 786px e 992px */
     }
 }
- 
+
+.nav-link.active {
+    text-decoration: underline; 
+    font-weight: bold; 
+    text-underline-offset: 5px;
+}  
