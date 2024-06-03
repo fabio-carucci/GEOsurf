@@ -39,6 +39,11 @@ const userSchema = new mongoose.Schema({
         type: addressSchema,
         required: false
     },
+    role: {
+        type: String,
+        required: false,
+        default: 'user'
+    },
     resetPasswordToken: {
         type: String,
         required: false

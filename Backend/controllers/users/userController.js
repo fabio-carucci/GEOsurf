@@ -74,18 +74,7 @@ const createUser = async (req, res, next) => {
 // Metodo per ottenere il profilo dell'utente autenticato tramite token
 const getUserProfile = async (req, res, next) => {
     try {
-        // Seleziona solo i campi desiderati dall'oggetto req.user
-        const userProfile = {
-            id: req.user._id,
-            nome: req.user.nome,
-            cognome: req.user.cognome,
-            email: req.user.email,
-            dataDiNascita: req.user.dataDiNascita,
-            avatar: req.user.avatar,
-            indirizzo: req.user.indirizzo,
-        };
-
-        res.status(200).json(userProfile);
+        res.status(200).json(req.user);
     } catch (error) {
         console.error('Errore durante il recupero del profilo dell\'utente:', error);
         next(error);

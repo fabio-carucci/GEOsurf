@@ -15,10 +15,14 @@ import protectedCompanyRoutes from './routes/companies/protectedCompanyRoutes.js
 import jwtCompanyVerifier from './middlewares/jwtCompanyVerifier.js';
 import companyRoutes from './routes/companies/companyRoutes.js'
 
-//Importo le routes degli utenti
+// Importo le routes degli utenti
 import loginUserRoutes from './routes/users/loginUserRoutes.js';
 import userRoutes from './routes/users/userRoutes.js';
 import jwtUserVerifier from './middlewares/jwtUserVerifier.js';
+
+// Importo le routes delle news
+import protectedNewsRoutes from './routes/news/protectedNewsRoutes.js';
+import newsRoutes from './routes/news/newsRoutes.js'
 
 // Importo la variabile PORT e il link di connessione al database dal file .env
 const PORT = process.env.PORT || 5002;
@@ -56,10 +60,13 @@ app.use('/auth', loginUserRoutes);
 
 // Routes generali
 app.use('/', companyRoutes);
+app.use('/', newsRoutes);
 
 // Routes a seguito dell'autenticazione
 app.use('/company', jwtCompanyVerifier, protectedCompanyRoutes);
 app.use('/user', jwtUserVerifier, userRoutes);
+
+app.use('/news', jwtUserVerifier, protectedNewsRoutes);
 
 // Middleware per la gestione degli errori
 app.use(errorHandler);
