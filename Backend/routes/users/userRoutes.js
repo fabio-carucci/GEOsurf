@@ -1,5 +1,5 @@
 import express from 'express';
-import { getUserProfile, refreshUserToken, getUsers, updateUser, deleteUser, updateUserAvatar, changeUserPW } from '../../controllers/users/userController.js';
+import { getUserProfile, refreshUserToken, getUsers, updateUser, deleteUser, updateUserAvatar, changeUserPW, setFavorites } from '../../controllers/users/userController.js';
 
 const router = express.Router();
 
@@ -12,5 +12,6 @@ router
     .delete('/deleteUser', deleteUser) // Route DELETE per eliminare l'utente corrente
     .patch('/updateUserAvatar', updateUserAvatar) // Route PATCH per aggiornare il logo dell'utente
     .put('/changeUserPW', changeUserPW) // Route PUT per cambiare la password
+    .put('/updateFavorites', setFavorites) // Route PUT per aggiornare la lista di preferiti
 
 export default router;

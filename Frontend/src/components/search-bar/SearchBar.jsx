@@ -99,7 +99,7 @@ export default function SearchBar({ onSearchResults, searchPerformed, setSearchP
                     </div>
                     <div className='d-flex justify-content-center'>
                         <Form.Group controlId="distance" className="d-flex align-items-center ms-lg-3 flex-column flex-lg-row" style={{width: "70%"}}>
-                            <Form.Label className="mb-3 mb-lg-1 mr-2 flex-shrink-0" style={{ minWidth: '150px', color:"rgb(250, 243, 230)" }}>
+                            <Form.Label className="mb-3 mb-lg-1 mr-2 flex-shrink-0" style={{ minWidth: '150px', color:"white" }}>
                                 Raggio di {distance} Km
                             </Form.Label>
                             <Form.Control 

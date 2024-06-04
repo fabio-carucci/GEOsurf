@@ -24,6 +24,9 @@ import jwtUserVerifier from './middlewares/jwtUserVerifier.js';
 import protectedNewsRoutes from './routes/news/protectedNewsRoutes.js';
 import newsRoutes from './routes/news/newsRoutes.js'
 
+// Importo le routes delle reviews
+import reviewsRoutes from './routes/reviews/reviewsRoutes.js';
+
 // Importo la variabile PORT e il link di connessione al database dal file .env
 const PORT = process.env.PORT || 5002;
 const db = process.env.DB_URL;
@@ -61,6 +64,7 @@ app.use('/auth', loginUserRoutes);
 // Routes generali
 app.use('/', companyRoutes);
 app.use('/', newsRoutes);
+app.use('/', reviewsRoutes);
 
 // Routes a seguito dell'autenticazione
 app.use('/company', jwtCompanyVerifier, protectedCompanyRoutes);

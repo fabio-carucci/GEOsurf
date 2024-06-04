@@ -1,11 +1,31 @@
-import React from 'react';
-import { Container, Row, Col, Card, Placeholder, Spinner } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { Container, Row, Col, Card, Spinner } from 'react-bootstrap';
 import './CompanyList.css';
 import { Link } from 'react-router-dom';
+import HeartButton from './HeartButton'; 
 import placeholderLogo from '../../assets/placeholderLOGO.jpg';
 import placeholderImage from '../../assets/placeholderCOVER.jpg';
+import { useAuth } from '../../context/AuthContextProvider';
 
 function CompanyList({ results, searchPerformed, loading }) {
+    const [favorites, setFavorites] = useState([]);
+    
+    const { user } = useAuth();
+
+    const toggleFavorite = (companyId) => {
+        if (favorites.includes(companyId)) {
+            setFavorites(favorites.filter(id => id !== companyId));
+        } else {
+            setFavorites([...favorites, companyId]);
+        }
+    };
+
+    useEffect(() => {
+        if (user){
+            setFavorites(user?.preferiti);
+        }
+    }, [user])
+
     return (
         <Container className='mt-4'>
             {loading ? (
@@ -34,6 +54,12 @@ function CompanyList({ results, searchPerformed, loading }) {
                                             className="card-logo"
                                         />
                                     </div>
+                                    {user && <HeartButton 
+                                        isFavorite={favorites.includes(company._id)} 
+                                        companyId={company._id} // Passo companyId come prop
+                                        toggleFavorite={toggleFavorite} // Passo la funzione di toggle
+                                        setFavorites={setFavorites}
+                                    />}
                                 </div>
                                 <Card.Body className='text-center'>
                                     <Card.Title as={Link} target='_blank' to={`/companyProfile/${company._id}`} className="text-center">{company.nome}</Card.Title>

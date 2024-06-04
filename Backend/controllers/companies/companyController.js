@@ -1,4 +1,5 @@
 import Company from "../../models/company.js";
+import mongoose from "mongoose";
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import sendMail from "../../sendMail.js";
@@ -118,12 +119,8 @@ const loginCompany = async (req, res, next) => {
 // Metodo per ottenere la lista delle aziende registrate
 const getCompanies = async (req, res, next) => {
     try {
-        const { nome } = req.query;
-        let query = {};
-        if (nome) {
-            query = { nome: { $regex: nome, $options: 'i' } };
-        }
-        const companies = await Company.find(query);
+        const { ids } = req.body;
+        const companies = await Company.find({ _id: { $in: ids } });
         res.json(companies);
     } catch (err) {
         console.error('Errore durante il recupero delle aziende:', err);

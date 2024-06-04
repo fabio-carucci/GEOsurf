@@ -20,7 +20,7 @@
     bottom: -30px;
     left: 50%;
     transform: translateX(-50%);
-    background: rgb(250, 243, 230);
+    background: white;
     border-radius: 50%;
     padding: 5px;
     box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
@@ -46,4 +46,19 @@
 .card-text {
     font-size: 0.9rem;
     color: rgb(9, 25, 49);
+}
+
+.heart-icon {
+    cursor: pointer;
+    position: absolute; /* Posiziona l'icona in modo assoluto */
+    top: 10px; /* Distanza dal bordo superiore */
+    right: 10px; /* Distanza dal bordo destro */
+    z-index: 2; /* Assicura che l'icona sia sopra l'immagine */
+    transition: color 0.3s ease-in-out; /* Aggiunge una transizione di colore fluida */
+    color: white;
+    font-size: 18pt;
+}
+
+.heart-icon.active {
+    color: rgb(212, 0, 0); /* Cambia il colore dell'icona del cuore quando è attiva */
 }

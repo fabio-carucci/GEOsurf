@@ -23,6 +23,14 @@ export const AuthContextProvider = ({ children }) => {
     
         // Calcola il timestamp attuale
         const currentTime = Math.floor(Date.now() / 1000);
+
+        // Se il token è già scaduto, effettua il logout
+        if (currentTime >= exp) {
+            setIsSessionExpired(true);
+            localStorage.setItem("isSessionExpired", true); // Salva sessionExpired nel localStorage
+            logout();
+            return;
+        }
     
         // Calcola il timestamp di scadenza del token meno 10 minuti
         const tokenExpirationMinus10Minutes = exp - 600; // 600 secondi = 10 minuti
@@ -103,6 +111,7 @@ export const AuthContextProvider = ({ children }) => {
         // Pulisce l'intervallo quando il componente si smonta
         return () => clearInterval(interval);
     }, []);
+    
 
     useEffect(() => {
         setIsSessionExpired(localStorage.getItem('isSessionExpired'));

@@ -44,6 +44,12 @@ const userSchema = new mongoose.Schema({
         required: false,
         default: 'user'
     },
+    preferiti: {
+        type: [mongoose.Schema.Types.ObjectId],
+        required: false,
+        ref: 'Company',
+        default: []
+    },
     resetPasswordToken: {
         type: String,
         required: false
@@ -52,6 +58,11 @@ const userSchema = new mongoose.Schema({
         type: Date,
         required: false,
         index: true // Aggiunge un indice su questo campo
+    },
+    reviews: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'Review',
+        default: []
     }
 }, {
     timestamps: true // Aggiunge createdAt e updatedAt automaticamente

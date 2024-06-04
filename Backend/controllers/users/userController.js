@@ -256,6 +256,37 @@ const resetPassword = async (req, res, next) => {
     }
 };
 
+// Metodo per aggiornare la lista di preferiti
+const setFavorites = async (req, res, next) => {
+    try {
+        const companyId = req.body.companyId; // Ottieni l'ID della compagnia dalla richiesta
+        const isFavorite = req.body.isFavorite === "true"; // Ottieni lo stato del preferito dalla richiesta (true o false)
+
+        let user = await User.findById(req.user._id); // Trova l'utente nel database
+
+        if (!user) {
+            return res.status(404).json({ message: 'Utente non trovato' });
+        }
+
+        // Se isFavorite è true, aggiungi companyId ai preferiti dell'utente, altrimenti rimuovilo
+        if (isFavorite) {
+            if (!user.preferiti.map(id => id.toString()).includes(companyId)) {
+                user.preferiti.push(companyId);
+            }
+        } else {
+            user.preferiti = user.preferiti.filter(id => id.toString() !== companyId);
+        }
+
+
+        await user.save(); // Salva le modifiche
+
+        res.status(200).json({ message: 'Preferiti aggiornati con successo', preferiti: user.preferiti, updatedUser: user });
+    } catch (error) {
+        console.error('Errore durante l\'aggiornamento dei preferiti:', error);
+        next(error);
+    }
+};
+
 export { 
     createUser, 
     getUserProfile, 
@@ -267,5 +298,6 @@ export {
     updateUserAvatar, 
     changeUserPW,
     sendMailResetPW,
-    resetPassword 
+    resetPassword,
+    setFavorites
 };

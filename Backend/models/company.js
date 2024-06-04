@@ -72,6 +72,11 @@ const companySchema = new mongoose.Schema({
         type: Date,
         required: false,
         index: true // Aggiunge un indice su questo campo
+    },
+    reviews: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'Review',
+        default: []
     }
 }, {
     timestamps: true // Aggiunge createdAt e updatedAt automaticamente

@@ -17,7 +17,7 @@
     padding-bottom: 20px;
     font-size: 26pt;
     text-align: center;
-    color: rgb(250, 243, 230);
+    color: white;
     font-weight: bold;
 }
 
@@ -30,7 +30,7 @@
     width: 80%;
     transition: all 0.7s ease-in-out;
     text-align: center;
-    color: rgb(250, 243, 230);
+    color: white;
     font-size: 14pt;
     padding-bottom: 20px;
 }
@@ -45,7 +45,7 @@
     appearance: none;
     height: 3px;
     border: 1px solid rgb(9, 25, 49);
-    background: rgb(250, 243, 230);
+    background: white;
     outline: none;
     opacity: 1;
     transition: opacity 0.2s;
@@ -62,7 +62,7 @@
     height: 25px;
     background: rgb(9, 25, 49);
     cursor: pointer;
-    border: 1px solid rgb(250, 243, 230);
+    border: 1px solid white;
     border-radius: 50%;
 }
 
@@ -72,7 +72,7 @@
     background: rgb(9, 25, 49);
     cursor: pointer;
     border-radius: 50%;
-    border: 1px solid rgb(250, 243, 230)
+    border: 1px solid white;
 }
 
 .custom-input {
@@ -80,12 +80,12 @@
     border-radius: 5px; /* Applica il border-radius completo */
     padding: 8px;
     outline: none;
-    background-color: rgb(250, 243, 230);
+    background-color: white;
 }
 
 .custom-input:focus {
     box-shadow: 0 0 2px rgb(250, 243, 230);
-    background-color: rgb(250, 243, 230);
+    background-color: white;
     border: 1px solid rgb(9, 25, 49);
 }
 

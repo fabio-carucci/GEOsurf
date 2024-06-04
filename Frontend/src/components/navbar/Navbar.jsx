@@ -18,28 +18,28 @@ export default function CustomNavbar() {
     return (
         <Navbar expand="lg" className='pt-3 custom-navbar'>
             <Container>
-                <Navbar.Brand href="/" className='fw-bold fs-3' style={{color: "rgb(250, 243, 230)"}}>
+                <Navbar.Brand href="/" style={{color: "white"}}>
                     <img
                         src={logo}
-                        width="50"
-                        height="50"
-                        className="d-inline-block align-center"
+                        width="60"
+                        height="60"
+                        className="d-inline-block"
                         alt="Logo"
-                        style={{ borderRadius: "50%", border: "3px solid rgb(250, 243, 230)" }}
+                        style={{ borderRadius: "50%", border: "3px solid white" }}
                     />{' '}
-                    GEOsurf
+                    <span>GEOsurf</span>
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto" >
-                        <Nav.Link href="/" className={`${isActive('/')}`} style={{color: "rgb(250, 243, 230)"}}>Home</Nav.Link>
-                        <Nav.Link href="/news" className={`${isActive('/news')}`} style={{color: "rgb(250, 243, 230)"}}>News</Nav.Link>
+                        <Nav.Link href="/" className={`${isActive('/')}`} style={{color: "white"}}>Home</Nav.Link>
+                        <Nav.Link href="/news" className={`${isActive('/news')}`} style={{color: "white"}}>News</Nav.Link>
                     </Nav>
                     {isLogged && (
-                        <NavDropdown title={`${user?.nome || ""} ${user?.cognome || ""}`} id="basic-nav-dropdown" align="end" style={{color: "rgb(250, 243, 230)" }}>
+                        <NavDropdown title={`${user?.nome || ""} ${user?.cognome || ""}`} id="basic-nav-dropdown" align="end" style={{color: "white" }}>
                             {role === "company" && <NavDropdown.Item href={`/companyProfile/${user?._id}`}>Profilo</NavDropdown.Item>}
                             {role === "user" && <NavDropdown.Item disabled>{user?.email}</NavDropdown.Item>}
-                            {role === "user" && <NavDropdown.Item>Preferiti</NavDropdown.Item>}
+                            {role === "user" && <NavDropdown.Item href={`/favorites`}>Preferiti</NavDropdown.Item>}
                             <NavDropdown.Item href="#action/3.3">Tema</NavDropdown.Item>
                             <NavDropdown.Divider />
                             {user?.role === "admin" && (
