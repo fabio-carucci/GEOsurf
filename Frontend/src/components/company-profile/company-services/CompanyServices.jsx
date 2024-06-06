@@ -79,6 +79,7 @@ const CompanyServices = ({ services, companyID, setCompany }) => {
 
     return (
         <Container className="services-carousel-container">
+            <h2 className="title-news pt-1">Servizi offerti</h2>
             {services.length > 0 ? (
                 <Carousel
                     additionalTransfrom={0}

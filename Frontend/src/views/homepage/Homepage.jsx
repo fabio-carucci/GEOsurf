@@ -23,7 +23,7 @@ export default function Homepage() {
                 searchPerformed={searchPerformed}
                 loading={loading}
             />
-            <NewsList />
+            {!searchPerformed && <NewsList />}
         </div>
     )
 }

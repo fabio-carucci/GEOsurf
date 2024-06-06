@@ -33,9 +33,13 @@ function CompanyList({ results, searchPerformed, loading }) {
                     <Spinner animation="border" role="status"></Spinner>
                     <span className='ms-2'>Caricamento in corso...</span>
                 </div>
-            ) : searchPerformed && results.length === 0 ? (
-                <p className='text-danger mt-2'>Non sono stati trovati risultati per la tua ricerca.</p>
             ) : (
+                <>
+                {searchPerformed && (
+                    <p className='text-danger mt-2'>
+                        {results.length === 1 ? '1 risultato di ricerca' : `${results.length} risultati di ricerca`}
+                    </p>
+                )}
                 <Row>
                     {results.map((company, index) => (
                         <Col lg={4} md={6} sm={12} key={index} className="mb-4">
@@ -71,6 +75,7 @@ function CompanyList({ results, searchPerformed, loading }) {
                         </Col>
                     ))}
                 </Row>
+                </>
             )}
         </Container>
     );
