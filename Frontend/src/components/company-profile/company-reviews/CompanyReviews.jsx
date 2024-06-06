@@ -41,7 +41,7 @@ const CompanyReviews = ({ companyId }) => {
     const [toastMessageText, setToastMessageText] = useState("");
     const [toastMessageType, setToastMessageType] = useState("");
 
-    const { user, token } = useAuth();
+    const { user, role, token } = useAuth();
 
     const apiURL = process.env.REACT_APP_API_URL;
 
@@ -143,28 +143,30 @@ const CompanyReviews = ({ companyId }) => {
 
     return (
         <Container>
-            <h2 className="title-news mt-0 pb-4">Recensioni</h2>
-            <Row className="mb-4">
-                <Col>
-                    <Form onSubmit={handleFormSubmit} className='text-center'>
-                        <Form.Group controlId="stars">
-                            <StarRating
-                                count={5}
-                                size={30}
-                                value={stars}
-                                onChange={(newRating) => setStars(newRating)}
-                            />
-                        </Form.Group>
-                        <Form.Group controlId="comment" className='d-flex flex-column align-items-center'>
-                            <Form.Label>Aggiungi il tuo commento</Form.Label>
-                            <Form.Control className='form-review-area' as="textarea" rows={3} value={comment} onChange={(e) => setComment(e.target.value)} />
-                        </Form.Group>
-                        <Button id='sendReview-btn' variant="primary" type="submit" disabled={sendingReview}>
-                            {sendingReview ? <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> : 'Invia recensione'}
-                        </Button>
-                    </Form>
-                </Col>
-            </Row>
+            <h2 className="title-news mt-0 pb-3">Recensioni</h2>
+            {role !== "company" && 
+                <Row className="mb-4">
+                    <Col>
+                        <Form onSubmit={handleFormSubmit} className='text-center'>
+                            <Form.Group controlId="stars">
+                                <StarRating
+                                    count={5}
+                                    size={30}
+                                    value={stars}
+                                    onChange={(newRating) => setStars(newRating)}
+                                />
+                            </Form.Group>
+                            <Form.Group controlId="comment" className='d-flex flex-column align-items-center'>
+                                <Form.Label>Aggiungi il tuo commento</Form.Label>
+                                <Form.Control className='form-review-area' as="textarea" rows={3} value={comment} onChange={(e) => setComment(e.target.value)} />
+                            </Form.Group>
+                            <Button id='sendReview-btn' variant="primary" type="submit" disabled={sendingReview}>
+                                {sendingReview ? <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> : 'Invia recensione'}
+                            </Button>
+                        </Form>
+                    </Col>
+                </Row>
+            }
             <ReviewList 
                 reviews={reviews} 
                 updateReview={updateReview}

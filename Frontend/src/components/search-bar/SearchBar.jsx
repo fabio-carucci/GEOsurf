@@ -64,7 +64,7 @@ export default function SearchBar({ onSearchResults, searchPerformed, setSearchP
             <Container>
                 <div className='d-flex align-items-center flex-column'>
                     <h2 className={`searchbar-title ${searchPerformed ? 'searchbar-title-reduced' : ''}`}>
-                        Scopri le Migliori Destinazioni per il Surf nel Mondo
+                        Scopri le Migliori Scuole di Surf nel Mondo
                     </h2>
                     <p className={`searchbar-description ${searchPerformed ? 'searchbar-description-reduced' : ''}`}>
                         Benvenuto su GEOsurf, il tuo punto di riferimento per trovare le destinazioni perfette per il surf. Che tu sia un principiante o un surfista esperto, il nostro sito ti aiuterà a scoprire i luoghi più affascinanti e le onde più entusiasmanti. 
@@ -73,7 +73,7 @@ export default function SearchBar({ onSearchResults, searchPerformed, setSearchP
                 </div>
                 <Form onSubmit={handleSearch}>
                     <div className='d-flex justify-content-center'>
-                        <InputGroup className="mb-3 input-group-custom" style={{ width: "80%" }}>
+                        <InputGroup className="mb-3 input-group-custom">
                             <Form.Control
                                 type="text" 
                                 placeholder="Inserisci l'indirizzo che preferisci" 

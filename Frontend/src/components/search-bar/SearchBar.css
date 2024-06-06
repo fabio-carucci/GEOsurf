@@ -11,7 +11,7 @@
 }
 
 .searchbar-title {
-    width: 80%;
+    width: 100%;
     text-align: center;
     transition: all 0.7s ease-in-out;
     padding-bottom: 20px;
@@ -27,7 +27,7 @@
 }
 
 .searchbar-description {
-    width: 80%;
+    width: 100%;
     transition: all 0.7s ease-in-out;
     text-align: center;
     color: white;
@@ -90,7 +90,8 @@
 }
 
 .input-group-custom {
-    position: relative; /* Posizionamento relativo per il contenitore dell'input group */
+    position: relative; 
+    width: 90%;
 }
 
 .clear-icon {
@@ -130,4 +131,17 @@
 
 .custom-check {
     font-size: 1rem;
+}
+
+@media screen and (min-width: 792px) {
+    .searchbar-title {
+        width: 80%;
+    }
+    .searchbar-description {
+        width: 80%;
+    }
+
+    .input-group-custom {
+        width: 80%;
+    }
 }

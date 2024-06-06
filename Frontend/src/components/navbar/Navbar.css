@@ -17,6 +17,14 @@
     background-color: rgb(9, 25, 49);
 }
 
+#basic-nav-dropdown {
+    color: white
+}
+
+.navbar-toggler {
+    background-color: rgb(250, 243, 230);
+}
+
 .dropdown-item {
     color: rgb(9, 25, 49);
 }

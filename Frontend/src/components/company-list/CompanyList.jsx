@@ -10,18 +10,18 @@ import { useAuth } from '../../context/AuthContextProvider';
 function CompanyList({ results, searchPerformed, loading }) {
     const [favorites, setFavorites] = useState([]);
     
-    const { user } = useAuth();
+    const { user, role } = useAuth();
 
     const toggleFavorite = (companyId) => {
-        if (favorites.includes(companyId)) {
-            setFavorites(favorites.filter(id => id !== companyId));
+        if (favorites?.includes(companyId)) {
+            setFavorites(favorites?.filter(id => id !== companyId));
         } else {
             setFavorites([...favorites, companyId]);
         }
     };
 
     useEffect(() => {
-        if (user){
+        if (role !== "company"){
             setFavorites(user?.preferiti);
         }
     }, [user])
@@ -58,8 +58,8 @@ function CompanyList({ results, searchPerformed, loading }) {
                                             className="card-logo"
                                         />
                                     </div>
-                                    {user && <HeartButton 
-                                        isFavorite={favorites.includes(company._id)} 
+                                    {user && role !== "company" && <HeartButton 
+                                        isFavorite={favorites?.includes(company._id)} 
                                         companyId={company._id} // Passo companyId come prop
                                         toggleFavorite={toggleFavorite} // Passo la funzione di toggle
                                         setFavorites={setFavorites}

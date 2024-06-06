@@ -31,26 +31,25 @@ export default function CustomNavbar() {
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="me-auto" >
+                    <Nav>
                         <Nav.Link href="/" className={`${isActive('/')}`} style={{color: "white"}}>Home</Nav.Link>
-                        <Nav.Link href="/news" className={`${isActive('/news')}`} style={{color: "white"}}>News</Nav.Link>
+                        <Nav.Link href="/news" className={`${isActive('/news')} me-auto`} style={{color: "white"}}>News</Nav.Link>
+                        {isLogged && (
+                            <NavDropdown title={`${user?.nome || ""} ${user?.cognome || ""}`} id="basic-nav-dropdown" align="end" style={{color: "white" }}>
+                                {role === "company" && <NavDropdown.Item href={`/companyProfile/${user?._id}`}>Profilo</NavDropdown.Item>}
+                                {role === "user" && <NavDropdown.Item disabled>{user?.email}</NavDropdown.Item>}
+                                {role === "user" && <NavDropdown.Item href={`/favorites`}>Preferiti</NavDropdown.Item>}
+                                <NavDropdown.Divider />
+                                {user?.role === "admin" && (
+                                    <>
+                                        <NavDropdown.Item className='fw-bold' onClick={() => setNewsModalShow(true)}>Scrivi una news</NavDropdown.Item>
+                                        <NavDropdown.Divider />
+                                    </>
+                                )}
+                                <NavDropdown.Item className='text-danger fw-bold' onClick={() => logout()}>Logout</NavDropdown.Item>
+                            </NavDropdown>
+                        )}
                     </Nav>
-                    {isLogged && (
-                        <NavDropdown title={`${user?.nome || ""} ${user?.cognome || ""}`} id="basic-nav-dropdown" align="end" style={{color: "white" }}>
-                            {role === "company" && <NavDropdown.Item href={`/companyProfile/${user?._id}`}>Profilo</NavDropdown.Item>}
-                            {role === "user" && <NavDropdown.Item disabled>{user?.email}</NavDropdown.Item>}
-                            {role === "user" && <NavDropdown.Item href={`/favorites`}>Preferiti</NavDropdown.Item>}
-                            <NavDropdown.Item href="#action/3.3">Tema</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            {user?.role === "admin" && (
-                                <>
-                                    <NavDropdown.Item className='fw-bold' onClick={() => setNewsModalShow(true)}>Scrivi una news</NavDropdown.Item>
-                                    <NavDropdown.Divider />
-                                </>
-                            )}
-                            <NavDropdown.Item className='text-danger fw-bold' onClick={() => logout()}>Logout</NavDropdown.Item>
-                        </NavDropdown>
-                    )}
                     {!isLogged && <Button variant="outline-light px-4" className="ms-3" onClick={() => setModalShow(true)}>Login</Button>}
                     <LoginModal
                         show={modalShow}
