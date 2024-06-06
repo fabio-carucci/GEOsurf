@@ -38,3 +38,7 @@
 .footer .text-center {
     margin-top: 20px;
 }
+
+footer .nav-link {
+    padding-left: 0;
+}

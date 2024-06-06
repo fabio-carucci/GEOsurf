@@ -311,7 +311,8 @@ const getCompanyById = async (req, res, next) => {
             logo: company.logo,
             cover: company.cover,
             websiteURL: company.websiteURL,
-            servizi: company.servizi
+            servizi: company.servizi,
+            reviews: company.reviews
         };
         res.status(200).json(companyData);
     } catch (error) {

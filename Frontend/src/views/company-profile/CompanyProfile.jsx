@@ -2,17 +2,15 @@ import React, { useState, useEffect } from 'react';
 import './CompanyProfile.css';
 import { useParams } from 'react-router-dom';
 import { Spinner, Alert } from 'react-bootstrap';
-import { useAuth } from '../../context/AuthContextProvider';
 import CompanyProfileInfo from '../../components/company-profile/company-profile-info/CompanyProfileInfo'
 import CompanyServices from '../../components/company-profile/company-services/CompanyServices';
+import CompanyReviews from '../../components/company-profile/company-reviews/CompanyReviews';
 
 const CompanyProfile = () => {
     const { id } = useParams();
     const [company, setCompany] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
-
-    const {isLogged, role, token, user} = useAuth();
 
     const apiURL = process.env.REACT_APP_API_URL;
 
@@ -57,6 +55,9 @@ const CompanyProfile = () => {
                 companyID={id}
                 services={company.servizi}
                 setCompany={setCompany}
+            />
+            <CompanyReviews
+                companyId={id}
             />
         </>
     );
