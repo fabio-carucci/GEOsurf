@@ -1,0 +1,23 @@
+.custom-pagination .page-link {
+    color: rgb(9, 25, 49);
+    border-color: rgb(9, 25, 49);
+}
+
+.custom-pagination .page-link:hover {
+    background-color: rgb(9, 25, 49);
+    color: rgb(250, 243, 230);
+}
+
+.custom-pagination.page-item.active .page-link,
+.custom-pagination.page-item.active .page-link:hover,
+.custom-pagination.page-item.active .page-link:focus {
+    background-color: rgb(9, 25, 49) !important;
+    border-color: rgb(9, 25, 49) !important;
+    color: rgb(250, 243, 230) !important;
+}
+
+.custom-pagination .page-item.disabled .page-link {
+    color: rgb(246, 230, 206);
+    background-color: #fff;
+    border-color: #dee2e6;
+}

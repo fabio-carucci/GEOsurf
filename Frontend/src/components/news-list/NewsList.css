@@ -1,0 +1,39 @@
+.custom-newslist-footer {
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(9, 25, 49);
+    color: white;
+}
+
+.custom-newslist-card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgb(250, 243, 230);
+    overflow: hidden;
+    background-color: rgb(250, 243, 230);
+}
+
+.title-news {
+    color: rgb(9, 25, 49);
+    text-align: center;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.card-news-text {
+    padding-top: 10px;
+    font-size: 1rem;
+    font-style: italic;
+}
+
+.card-news-text button {
+    font-size: 0.8rem;
+    color: rgb(9, 25, 49);
+    padding: 0;
+    margin-left: 20px;
+    text-decoration-line: none;
+}
+
+.card-news-text button:hover {
+    color: rgb(9, 25, 49);
+    text-decoration: underline;
+}

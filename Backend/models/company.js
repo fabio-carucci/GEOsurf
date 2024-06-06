@@ -2,6 +2,18 @@ import mongoose from "mongoose";
 import bcrypt from 'bcrypt';
 import addressSchema from "./address.js";
 
+// Schema per un singolo servizio
+const serviceSchema = new mongoose.Schema({
+    nome: {
+        type: String,
+        required: true
+    },
+    icona: {
+        type: String,
+        required: true
+    }
+}, { _id: false });
+
 const companySchema = new mongoose.Schema({
     nome: {
         type: String,
@@ -37,10 +49,20 @@ const companySchema = new mongoose.Schema({
         required: false,
         default: ''
     },
+    cover: {
+        type: String, 
+        required: false,
+        default: ''
+    },
     websiteURL: {
         type: String, 
         required: false,
         default: ''
+    },
+    servizi: {
+        type: [serviceSchema],
+        required: false,
+        default: [] // Default to an empty array
     },
     resetPasswordToken: {
         type: String,
@@ -50,6 +72,11 @@ const companySchema = new mongoose.Schema({
         type: Date,
         required: false,
         index: true // Aggiunge un indice su questo campo
+    },
+    reviews: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'Review',
+        default: []
     }
 }, {
     timestamps: true // Aggiunge createdAt e updatedAt automaticamente

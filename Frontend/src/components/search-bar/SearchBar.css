@@ -1,0 +1,147 @@
+.searchbar-container {
+    background-color: rgb(9, 25, 49);
+    padding-top: 40px;
+    padding-bottom: 75px;
+    transition: padding 0.7s ease-in-out;
+}
+
+.searchbar-reduced {
+    padding-top: 5px;
+    padding-bottom: 10px;
+}
+
+.searchbar-title {
+    width: 100%;
+    text-align: center;
+    transition: all 0.7s ease-in-out;
+    padding-bottom: 20px;
+    font-size: 26pt;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+}
+
+.searchbar-title-reduced {
+    font-size: 18pt;
+    padding: 0;
+}
+
+.searchbar-description {
+    width: 100%;
+    transition: all 0.7s ease-in-out;
+    text-align: center;
+    color: white;
+    font-size: 14pt;
+    padding-bottom: 20px;
+}
+
+.searchbar-description-reduced {
+    display: none;
+}
+
+.custom-range {
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 3px;
+    border: 1px solid rgb(9, 25, 49);
+    background: white;
+    outline: none;
+    opacity: 1;
+    transition: opacity 0.2s;
+}
+
+.custom-range:hover {
+    box-shadow: 0 0 5px rgb(9, 25, 49);
+}
+
+.custom-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: rgb(9, 25, 49);
+    cursor: pointer;
+    border: 1px solid white;
+    border-radius: 50%;
+}
+
+.custom-range::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: rgb(9, 25, 49);
+    cursor: pointer;
+    border-radius: 50%;
+    border: 1px solid white;
+}
+
+.custom-input {
+    border: 1px solid rgb(250, 243, 230);
+    border-radius: 5px; /* Applica il border-radius completo */
+    padding: 8px;
+    outline: none;
+    background-color: white;
+}
+
+.custom-input:focus {
+    box-shadow: 0 0 2px rgb(250, 243, 230);
+    background-color: white;
+    border: 1px solid rgb(9, 25, 49);
+}
+
+.input-group-custom {
+    position: relative; 
+    width: 90%;
+}
+
+.clear-icon {
+    position: absolute;
+    right: -25px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgb(250, 243, 230);
+    cursor: pointer;
+}
+
+.custom-button {
+    border: 1px solid rgb(250, 243, 230);
+    border-radius: 5px; /* Applica il border-radius completo */
+    padding: 8px 16px;
+    background-color: rgb(9, 25, 49);
+    color: rgb(250, 243, 230);
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    margin-left: -1px; /* Per evitare la doppia larghezza del bordo */
+}
+
+.custom-button:hover {
+    background-color: rgb(250, 243, 230);
+    border: 1px solid rgb(250, 243, 230);
+    color: rgb(9, 25, 49);
+}
+
+.custom-button:focus {
+    outline: none;
+}
+
+.custom-button:active, .custom-button:disabled {
+    background-color: rgb(9, 25, 49) !important;
+    color: rgb(250, 243, 230) !important;
+    border: 1px solid rgb(250, 243, 230) !important;
+}
+
+.custom-check {
+    font-size: 1rem;
+}
+
+@media screen and (min-width: 792px) {
+    .searchbar-title {
+        width: 80%;
+    }
+    .searchbar-description {
+        width: 80%;
+    }
+
+    .input-group-custom {
+        width: 80%;
+    }
+}

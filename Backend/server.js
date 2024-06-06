@@ -11,13 +11,21 @@ import errorHandler from './middlewares/errorHandler.js';
 
 // Importo le routes delle aziende
 import loginCompanyRoutes from './routes/companies/loginCompanyRoutes.js';
-import companyRoutes from './routes/companies/companyRoutes.js';
+import protectedCompanyRoutes from './routes/companies/protectedCompanyRoutes.js';
 import jwtCompanyVerifier from './middlewares/jwtCompanyVerifier.js';
+import companyRoutes from './routes/companies/companyRoutes.js'
 
-//Importo le routes degli utenti
+// Importo le routes degli utenti
 import loginUserRoutes from './routes/users/loginUserRoutes.js';
 import userRoutes from './routes/users/userRoutes.js';
 import jwtUserVerifier from './middlewares/jwtUserVerifier.js';
+
+// Importo le routes delle news
+import protectedNewsRoutes from './routes/news/protectedNewsRoutes.js';
+import newsRoutes from './routes/news/newsRoutes.js'
+
+// Importo le routes delle reviews
+import reviewsRoutes from './routes/reviews/reviewsRoutes.js';
 
 // Importo la variabile PORT e il link di connessione al database dal file .env
 const PORT = process.env.PORT || 5002;
@@ -50,12 +58,19 @@ app.get('/', (req, res) => {
 });
 
 // Routes di login 
-app.use('/', loginCompanyRoutes);
-app.use('/', loginUserRoutes);
+app.use('/auth', loginCompanyRoutes);
+app.use('/auth', loginUserRoutes);
+
+// Routes generali
+app.use('/', companyRoutes);
+app.use('/', newsRoutes);
+app.use('/', reviewsRoutes);
 
 // Routes a seguito dell'autenticazione
-app.use('/', jwtCompanyVerifier, companyRoutes);
-app.use('/', jwtUserVerifier, userRoutes);
+app.use('/company', jwtCompanyVerifier, protectedCompanyRoutes);
+app.use('/user', jwtUserVerifier, userRoutes);
+
+app.use('/news', jwtUserVerifier, protectedNewsRoutes);
 
 // Middleware per la gestione degli errori
 app.use(errorHandler);

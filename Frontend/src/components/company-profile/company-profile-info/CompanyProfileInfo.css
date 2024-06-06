@@ -1,0 +1,117 @@
+.profile-container {
+    margin-top: 20px;
+}
+
+.profile-card {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgb(246, 230, 206);
+}
+
+.profile-card .card-body {
+    padding: 0;
+}
+
+.profile-title {
+    background-color: rgb(9, 25, 49);
+    color: rgb(246, 230, 206);
+    text-align: center;
+    padding: 20px;
+    margin-bottom: 0px;
+    font-size: 20pt;
+}
+
+.profile-image-container {
+    text-align: center;
+    position: relative;
+    padding-right: 0;
+}
+
+.profile-logo {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    border: 3px solid rgb(246, 230, 206);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: rgb(246, 230, 206);
+    z-index: 1;
+}
+
+.upload-icon {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.3);
+    color: rgb(246, 230, 206);
+    border-radius: 50%;
+    padding: 5px;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.profile-cover {
+    width: 100%;
+    object-fit: cover;
+    height: 300px;
+    position: relative;
+}
+
+.profile-info-container {
+    height: calc(100% - 79px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(250, 243, 230);
+    position: relative;
+}
+
+.small-modal-image {
+    max-width: 100%;
+    height: auto;
+    max-height: 300px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cover-upload-bar {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    color: rgb(9, 25, 49);
+    text-align: center;
+    padding: 10px 0;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-shadow: 0px 0px 2px rgb(250, 243, 230);
+}
+
+.custom-pensquare {
+    cursor: pointer;
+    font-size: 10pt;
+    color: rgb(9, 25, 49);
+    align-self: center;
+}
+
+.custom-modified-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: absolute;
+    bottom: 5px;
+    right: 10px;
+    cursor: pointer;
+    color: rgb(9, 25, 49);
+}

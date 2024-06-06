@@ -1,24 +1,30 @@
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+import Navbar from "./components/navbar/Navbar";
+import Homepage from './views/homepage/Homepage';
+import CompanyProfile from './views/company-profile/CompanyProfile';
+import Newspage from './views/news-page/Newspage';
+import { useAuth } from './context/AuthContextProvider';
+import FavoritePage from './views/favorites-page/FavoritePage';
+import Footer from './components/footer/Footer';
 
 function App() {
+
+  const { user } = useAuth();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Homepage />} />
+        <Route path="/companyProfile/:id" element={<CompanyProfile />} />
+        <Route path="/news" element={<Newspage />} />
+        <Route path="/*" element={<h1>Page Not Found</h1>} />
+        {user && <Route path='/favorites' element={<FavoritePage />} />}
+      </Routes>
+      <Footer />
+    </Router>
   );
 }
 

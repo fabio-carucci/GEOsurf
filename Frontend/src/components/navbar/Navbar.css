@@ -1,0 +1,71 @@
+.modal-40w {
+    width: 40%;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.navbar-brand span {
+    font-size: 26pt;
+    font-weight: bold;
+}
+
+.custom-navbar {
+    background-color: rgb(9, 25, 49);
+}
+
+#basic-nav-dropdown {
+    color: white
+}
+
+.navbar-toggler {
+    background-color: rgb(250, 243, 230);
+}
+
+.dropdown-item {
+    color: rgb(9, 25, 49);
+}
+
+.dropdown-item:hover {
+    background-color: whitesmoke;
+}
+
+.dropdown-item:focus, .dropdown-item:active {
+    background-color: rgb(9, 25, 49);
+    color: whitesmoke;
+}
+
+.dropdown-menu.show {
+    background-color: white;
+}
+  
+@media (max-width: 768px) {
+    .custom-modal {
+        width: 90vw; /* Larghezza del modal al 90% della larghezza dello schermo su dispositivi mobili */
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+}
+
+@media screen and (min-width: 769px) and (max-width: 992px) {
+    .custom-modal {
+        width: 70vw; /* Larghezza del modal al 70% della larghezza dello schermo su dispositivi con larghezza tra 786px e 992px */
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+}  
+
+@media screen and (min-width: 993px) {
+    .custom-modal {
+        width: 40vw; /* Larghezza del modal al 70% della larghezza dello schermo su dispositivi con larghezza tra 786px e 992px */
+    }
+}
+
+.nav-link.active {
+    text-decoration: underline; 
+    font-weight: bold; 
+    text-underline-offset: 5px;
+}

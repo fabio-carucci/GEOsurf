@@ -1,8 +1,10 @@
 import Company from "../../models/company.js";
+import mongoose from "mongoose";
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import sendMail from "../../sendMail.js";
 import { configDotenv } from "dotenv";
+import fetch from 'node-fetch';
 
 // Configuro dotenv per caricare le variabili d'ambiente dal file .env
 configDotenv();
@@ -22,7 +24,7 @@ function generateToken(company) {
 const createCompany = async (req, res, next) => {
     try {
         let logoCloudinaryURL = null;
-        if(req.file && req.file.path) {
+        if (req.file && req.file.path) {
             logoCloudinaryURL = req.file.path;
         }
 
@@ -30,18 +32,43 @@ const createCompany = async (req, res, next) => {
         const existingCompany = await Company.findOne({ email: req.body.email });
         if (existingCompany) {
             return res.status(400).json({ message: 'Email già esistente.' });
-        };
+        }
 
+        // Analizza l'oggetto indirizzo dal corpo della richiesta
+        const indirizzo = JSON.parse(req.body.indirizzo);
+
+        // Costruisci l'indirizzo completo
+        const { via, città, CAP, provincia, regione, paese } = indirizzo;
+        const address = `${via}, ${CAP} ${città}, ${provincia}, ${regione}, ${paese}`;
+
+        // Ottieni le coordinate dall'API di Nominatim
+        const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&format=json`);
+        const data = await response.json();
+
+        if (data.length === 0) {
+            return res.status(400).json({ message: 'Impossibile ottenere le coordinate per l\'indirizzo fornito.' });
+        }
+
+        const coordinates = [parseFloat(data[0].lat), parseFloat(data[0].lon)];
+
+        // Crea la nuova azienda con le coordinate ottenute
         const newCompany = await Company.create({
-            ...req.body, 
-            logo: logoCloudinaryURL
+            ...req.body,
+            indirizzo: {
+                ...indirizzo,
+                location: {
+                    type: 'Point',
+                    coordinates
+                }
+            },
+            logo: logoCloudinaryURL,
         });
 
         const token = generateToken(newCompany);
-        res.json({ token });
+        res.json({ token, id: newCompany._id });
     } catch (error) {
         console.error('Errore durante la creazione dell\'azienda:', error);
-        next(error); // Usa il middleware di gestione degli errori
+        next(error);
     }
 };
 
@@ -52,6 +79,20 @@ const getCompanyProfile = async (req, res, next) => {
     } catch (error) {
         console.error('Errore durante il recupero del profilo dell\'azienda:', error);
         next(error);
+    }
+};
+
+// Metodo per aggiornare il token prima della scadenza
+const refreshCompanyToken = async (req, res) => {
+    try {
+        // Genera un nuovo token con lo stesso payload dell'azienda attuale
+        const newToken = generateToken(req.company);
+
+        // Invia il nuovo token nella risposta
+        res.status(200).json({ token: newToken });
+    } catch (error) {
+        console.error("Errore durante l'aggiornamento del token:", error);
+        res.status(500).json({ message: "Errore durante l'aggiornamento del token" });
     }
 };
 
@@ -78,12 +119,8 @@ const loginCompany = async (req, res, next) => {
 // Metodo per ottenere la lista delle aziende registrate
 const getCompanies = async (req, res, next) => {
     try {
-        const { nome } = req.query;
-        let query = {};
-        if (nome) {
-            query = { nome: { $regex: nome, $options: 'i' } };
-        }
-        const companies = await Company.find(query);
+        const { ids } = req.body;
+        const companies = await Company.find({ _id: { $in: ids } });
         res.json(companies);
     } catch (err) {
         console.error('Errore durante il recupero delle aziende:', err);
@@ -130,7 +167,26 @@ const updateCompanyLogo = async (req, res, next) => {
             { new: true }
         );
         if (updatedCompany) {
-            res.status(200).json({ message: `Il logo dell'azienda di nome ${updatedCompany.nome} è stato aggiornato correttamente` });
+            res.status(200).json({ message: `Il logo dell'azienda di nome ${updatedCompany.nome} è stato aggiornato correttamente`, updatedCompany });
+        } else {
+            res.status(404).json({ message: 'Azienda non trovata.' });
+        }
+    } catch (err) {
+        console.error('Errore durante l\'aggiornamento del logo dell\'azienda:', err);
+        next(err);
+    }
+};
+
+// Metodo per aggiungere/modificare l'url della cover dell'azienda
+const updateCompanyCover = async (req, res, next) => {
+    try {
+        const updatedCompany = await Company.findByIdAndUpdate(
+            req.company.id, 
+            { cover: req.file.path },
+            { new: true }
+        );
+        if (updatedCompany) {
+            res.status(200).json({ message: `La cover dell'azienda di nome ${updatedCompany.nome} è stato aggiornato correttamente`, updatedCompany });
         } else {
             res.status(404).json({ message: 'Azienda non trovata.' });
         }
@@ -217,15 +273,114 @@ const resetPassword = async (req, res, next) => {
     }
 };
 
+// Metodo per cercare le aziende che si trovano entro un certo raggio di distanza da coordinate
+const searchCompanyWithCoordinates = async (req, res, next) => {
+    const { lat, lon, radius } = req.query;
+    const radiusInKilometers = parseFloat(radius);
+    const coordinates = [parseFloat(lat), parseFloat(lon)];
+
+    try {
+        const companies = await Company.find({
+            "indirizzo.location": {
+                $geoWithin: {
+                    $centerSphere: [coordinates, radiusInKilometers / 6378.1]
+                }
+            }
+        });
+        res.json(companies);
+    } catch (error) {
+        console.error("Error:", error);
+        res.status(500).json({ error: 'Errore nella ricerca delle Aziende' });
+    }
+};
+
+// Metodo per trovare l'azienda tramite id
+const getCompanyById = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const company = await Company.findById(id);
+        if (!company) {
+            return res.status(404).json({ message: 'Azienda non trovata.' });
+        }
+        // Creare un oggetto con solo i campi desiderati
+        const companyData = {
+            nome: company.nome,
+            email: company.email,
+            indirizzo: company.indirizzo,
+            telefono: company.telefono,
+            logo: company.logo,
+            cover: company.cover,
+            websiteURL: company.websiteURL,
+            servizi: company.servizi,
+            reviews: company.reviews
+        };
+        res.status(200).json(companyData);
+    } catch (error) {
+        console.error('Errore durante il recupero dell\'azienda tramite ID:', error);
+        next(error); // Usa il middleware di gestione degli errori
+    }
+};
+
+// Metodo per aggiornare i servizi dell'azienda
+const updateCompanyServices = async (req, res, next) => {
+    try {
+        // Lista dei servizi ricevuti dal body della richiesta
+        const servicesToUpdate = req.body.services;
+
+        // Lista dei servizi attualmente disponibili nell'azienda
+        let updatedServices = req.company.servizi || [];
+
+        // Mappatura dei nomi dei servizi con le rispettive icone
+        const serviceIconsMap = {
+            'Corsi Surf': '🏄‍♂️',
+            'Noleggio Attrezzatura': '🏄‍♀️',
+            'Corsi Kitesurf': '🪂',
+            'Rimessaggio Tavole': '🛶',
+            'Esperienze Outdoor': '⛰️',
+            'Corsi Windsurf': '🪁',
+            'Yoga SUP': '🧘🏼‍♀️',
+            'Corsi Skate': '🛹',
+            'Academy': '🎓',
+            'Surf trips': '🛩️'
+        };
+
+        // Aggiungi nuovi servizi alla lista dei servizi dell'azienda
+        servicesToUpdate.forEach(service => {
+            if (!updatedServices.find(s => s.nome === service)) {
+                // Servizio non presente, aggiungilo con l'icona corrispondente
+                updatedServices.push({ nome: service, icona: serviceIconsMap[service] || '' });
+            }
+        });
+
+        // Rimuovi servizi dalla lista se non sono più selezionati
+        updatedServices = updatedServices.filter(service => servicesToUpdate.includes(service.nome));
+
+        // Aggiorna i servizi dell'azienda
+        req.company.servizi = updatedServices;
+        const updatedCompany = await req.company.save();
+
+        res.status(200).json({ message: `I servizi dell'azienda di nome ${updatedCompany.nome} sono stati aggiornati correttamente`, updatedCompany });
+    } catch (err) {
+        console.error('Errore durante l\'aggiornamento dei servizi dell\'azienda:', err);
+        next(err);
+    }
+};
+
+// Esportazione di tutti i metodi
 export { 
     createCompany, 
     getCompanyProfile, 
+    refreshCompanyToken,
     loginCompany, 
     getCompanies, 
     updateCompany, 
     deleteCompany, 
     updateCompanyLogo, 
+    updateCompanyCover,
     changeCompanyPW,
     sendMailResetPW,
-    resetPassword 
+    resetPassword,
+    searchCompanyWithCoordinates,
+    getCompanyById,
+    updateCompanyServices
 };

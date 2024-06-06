@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import sendMail from "../../sendMail.js";
 import { configDotenv } from "dotenv";
+import fetch from "node-fetch";
 
 // Configuro dotenv per caricare le variabili d'ambiente dal file .env
 configDotenv();
@@ -22,7 +23,7 @@ function generateToken(user) {
 const createUser = async (req, res, next) => {
     try {
         let avatarCloudinaryURL = null;
-        if(req.file && req.file.path) {
+        if (req.file && req.file.path) {
             avatarCloudinaryURL = req.file.path;
         }
 
@@ -32,9 +33,34 @@ const createUser = async (req, res, next) => {
             return res.status(400).json({ message: 'Email già esistente.' });
         }
 
+        let address = req.body.indirizzo;
+        let coordinates = null;
+
+        if (address) {
+            const { via, città, CAP, provincia, regione, paese } = address;
+            const fullAddress = `${via}, ${CAP} ${città}, ${provincia}, ${regione}, ${paese}`;
+
+            // Ottieni le coordinate dall'API di Nominatim
+            const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(fullAddress)}&format=json`);
+            const data = await response.json();
+
+            if (data.length > 0) {
+                coordinates = [parseFloat(data[0].lat), parseFloat(data[0].lon)];
+            } else {
+                console.warn('Impossibile ottenere le coordinate per l\'indirizzo fornito.');
+            }
+        }
+
         const newUser = await User.create({
-            ...req.body, 
-            avatar: avatarCloudinaryURL
+            ...req.body,
+            avatar: avatarCloudinaryURL,
+            indirizzo: address ? {
+                ...address,
+                location: coordinates ? {
+                    type: 'Point',
+                    coordinates
+                } : undefined
+            } : undefined
         });
 
         const token = generateToken(newUser);
@@ -52,6 +78,20 @@ const getUserProfile = async (req, res, next) => {
     } catch (error) {
         console.error('Errore durante il recupero del profilo dell\'utente:', error);
         next(error);
+    }
+};
+
+// Metodo per aggiornare il token prima della scadenza
+const refreshUserToken = async (req, res) => {
+    try {
+        // Genera un nuovo token con lo stesso payload dell'utente attuale
+        const newToken = generateToken(req.user);
+
+        // Invia il nuovo token nella risposta
+        res.status(200).json({ token: newToken });
+    } catch (error) {
+        console.error("Errore durante l'aggiornamento del token:", error);
+        res.status(500).json({ message: "Errore durante l'aggiornamento del token" });
     }
 };
 
@@ -216,9 +256,41 @@ const resetPassword = async (req, res, next) => {
     }
 };
 
+// Metodo per aggiornare la lista di preferiti
+const setFavorites = async (req, res, next) => {
+    try {
+        const companyId = req.body.companyId; // Ottieni l'ID della compagnia dalla richiesta
+        const isFavorite = req.body.isFavorite === "true"; // Ottieni lo stato del preferito dalla richiesta (true o false)
+
+        let user = await User.findById(req.user._id); // Trova l'utente nel database
+
+        if (!user) {
+            return res.status(404).json({ message: 'Utente non trovato' });
+        }
+
+        // Se isFavorite è true, aggiungi companyId ai preferiti dell'utente, altrimenti rimuovilo
+        if (isFavorite) {
+            if (!user.preferiti.map(id => id.toString()).includes(companyId)) {
+                user.preferiti.push(companyId);
+            }
+        } else {
+            user.preferiti = user.preferiti.filter(id => id.toString() !== companyId);
+        }
+
+
+        await user.save(); // Salva le modifiche
+
+        res.status(200).json({ message: 'Preferiti aggiornati con successo', preferiti: user.preferiti, updatedUser: user });
+    } catch (error) {
+        console.error('Errore durante l\'aggiornamento dei preferiti:', error);
+        next(error);
+    }
+};
+
 export { 
     createUser, 
     getUserProfile, 
+    refreshUserToken,
     loginUser, 
     getUsers, 
     updateUser, 
@@ -226,5 +298,6 @@ export {
     updateUserAvatar, 
     changeUserPW,
     sendMailResetPW,
-    resetPassword 
+    resetPassword,
+    setFavorites
 };
