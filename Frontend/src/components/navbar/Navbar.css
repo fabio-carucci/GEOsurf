@@ -62,6 +62,9 @@
     .custom-modal {
         width: 40vw; /* Larghezza del modal al 70% della larghezza dello schermo su dispositivi con larghezza tra 786px e 992px */
     }
+    .navbar-nav {
+        width: 100%;
+    }
 }
 
 .nav-link.active {
