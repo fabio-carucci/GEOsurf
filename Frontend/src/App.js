@@ -8,6 +8,7 @@ import CompanyProfile from './views/company-profile/CompanyProfile';
 import Newspage from './views/news-page/Newspage';
 import { useAuth } from './context/AuthContextProvider';
 import FavoritePage from './views/favorites-page/FavoritePage';
+import Footer from './components/footer/Footer';
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
         <Route path="/*" element={<h1>Page Not Found</h1>} />
         {user && <Route path='/favorites' element={<FavoritePage />} />}
       </Routes>
+      <Footer />
     </Router>
   );
 }
