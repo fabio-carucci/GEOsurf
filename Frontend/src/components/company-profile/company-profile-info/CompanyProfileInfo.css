@@ -68,11 +68,21 @@
 .profile-info-container {
     height: calc(100% - 79px);
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    justify-content: center; /* Centra il contenuto orizzontalmente */
+    align-items: center; /* Centra il contenuto verticalmente */
     background-color: rgb(250, 243, 230);
     position: relative;
+    padding: 20px; /* Aggiungi un po' di padding per un migliore layout */
+}
+
+.profile-info-wrapper {
+    width: 100%;
+    max-width: 600px; /* Limita la larghezza massima per migliorare la leggibilità */
+    text-align: left; /* Allinea il testo a sinistra */
+}
+
+.profile-info-wrapper .card-text {
+    margin-bottom: 10px; /* Aggiungi uno spazio tra gli elementi */
 }
 
 .small-modal-image {
