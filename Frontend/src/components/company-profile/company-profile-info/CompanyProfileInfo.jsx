@@ -227,29 +227,35 @@ const CompanyProfileInfo = ({ myCompany }) => {
                             <Col xs={12} md={6} xl={7} className='ps-0'>
                                 <Card.Text className="profile-title text-uppercase fw-bold ps-0">{company.nome}</Card.Text>
                                 <div className='profile-info-container py-4 py-md-0'>  
-                                    <Card.Text className='mb-0'>
-                                        <strong>Email:</strong> {company.email}
-                                    </Card.Text>
-                                    <Card.Text className='mb-0'>
-                                        <strong>Indirizzo: </strong>
-                                        <span>{company.indirizzo.via}, </span>
-                                        <span>{company.indirizzo.CAP} {company.indirizzo.città}</span><br />
-                                        <span>{company.indirizzo.provincia}, {company.indirizzo.regione}, {company.indirizzo.paese}</span>
-                                    </Card.Text>
-                                    <Card.Text className='mb-0'><strong>Telefono:</strong> {company.telefono || "-"}</Card.Text>
-                                    <Card.Text className='mb-0'>
-                                        <strong>Sito Web:</strong> {company.websiteURL 
-                                            ? <a href={company.websiteURL} target="_blank" rel="noopener noreferrer">{company.websiteURL}</a>
-                                            : '-'
-                                        }
-                                    </Card.Text>                        
-                                    {itsME && <Card.Text className='mb-0'><strong>Partita IVA:</strong> {user?.partitaIVA}</Card.Text>}
-                                    {itsME && (
-                                        <div className='custom-modified-info' onClick={() => setEditingModalShow(true)}>
-                                            <div>Modifica i dati anagrafici</div>
-                                            <FaPenToSquare />
-                                        </div>
-                                    )}
+                                    <div className='profile-info-wrapper'>
+                                        <Card.Text className='mb-0'>
+                                            <strong>Email:</strong> {company.email}
+                                        </Card.Text>
+                                        <Card.Text className='mb-0'>
+                                            <strong>Indirizzo: </strong>
+                                            <span>{company.indirizzo.via}, </span>
+                                            <span>{company.indirizzo.CAP} {company.indirizzo.città}</span><br />
+                                            <span>
+                                                {[company.indirizzo.provincia, company.indirizzo.regione, company.indirizzo.paese]
+                                                    .filter(Boolean)
+                                                    .join(', ')}
+                                            </span>
+                                        </Card.Text>
+                                        <Card.Text className='mb-0'><strong>Telefono:</strong> {company.telefono || "-"}</Card.Text>
+                                        <Card.Text className='mb-0'>
+                                            <strong>Sito Web:</strong> {company.websiteURL 
+                                                ? <a href={company.websiteURL} target="_blank" rel="noopener noreferrer">{company.websiteURL}</a>
+                                                : '-'
+                                            }
+                                        </Card.Text>                        
+                                        {itsME && <Card.Text className='mb-0'><strong>Partita IVA:</strong> {user?.partitaIVA}</Card.Text>}
+                                        {itsME && (
+                                            <div className='custom-modified-info' onClick={() => setEditingModalShow(true)}>
+                                                <div>Modifica i dati anagrafici</div>
+                                                <FaPenToSquare />
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
                             </Col>
                         </Row>

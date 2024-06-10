@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import SearchBar from '../../components/search-bar/SearchBar';
 import CompanyList from '../../components/company-list/CompanyList'
 import NewsList from '../../components/news-list/NewsList';
+import MyResponsiveChoropleth from '../../components/nivo-geomap/Choropleth';
 
 export default function Homepage() {
     const [searchResults, setSearchResults] = useState([]);
@@ -23,6 +24,7 @@ export default function Homepage() {
                 searchPerformed={searchPerformed}
                 loading={loading}
             />
+            {!searchPerformed && <MyResponsiveChoropleth/>}
             {!searchPerformed && <NewsList />}
         </div>
     )
