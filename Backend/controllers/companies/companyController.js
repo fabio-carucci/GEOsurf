@@ -5,6 +5,7 @@ import crypto from 'crypto';
 import sendMail from "../../sendMail.js";
 import { configDotenv } from "dotenv";
 import fetch from 'node-fetch';
+import Countries from '../../countries.json' assert { type: "json" };
 
 // Configuro dotenv per caricare le variabili d'ambiente dal file .env
 configDotenv();
@@ -366,6 +367,38 @@ const updateCompanyServices = async (req, res, next) => {
     }
 };
 
+// Metodo per contare le aziende per paese utilizzando l'aggregazione di MongoDB
+const countCompaniesByCountry = async (req, res, next) => {
+    try {
+        // Esegue l'aggregazione per contare le aziende per paese
+        const aggregationPipeline = [
+            {
+                $group: {
+                    _id: '$indirizzo.paese',
+                    count: { $sum: 1 }
+                }
+            }
+        ];
+
+        const companyCounts = await Company.aggregate(aggregationPipeline);
+
+        // Mappa i risultati per aggiungere il codice ISO del paese
+        const formattedData = companyCounts.map(({ _id, count }) => {
+            const country = Countries.data.find(country => country.label === _id);
+            return {
+                id: country ? country.value : _id, // Usa il codice ISO del paese se disponibile, altrimenti usa il nome del paese
+                value: count
+            };
+        });
+
+        // Invia i risultati
+        res.json(formattedData);
+    } catch (error) {
+        console.error('Errore nel conteggio delle aziende per paese:', error);
+        next(error);
+    }
+};
+
 // Esportazione di tutti i metodi
 export { 
     createCompany, 
@@ -382,5 +415,6 @@ export {
     resetPassword,
     searchCompanyWithCoordinates,
     getCompanyById,
-    updateCompanyServices
+    updateCompanyServices,
+    countCompaniesByCountry
 };

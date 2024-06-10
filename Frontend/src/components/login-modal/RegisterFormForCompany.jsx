@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Button, Spinner, InputGroup, Row, Col } from 'react-bootstrap';
+import { Form, Button, Spinner, InputGroup, Row, Col, CloseButton } from 'react-bootstrap';
+import Select from 'react-select';
 import { useAuth } from '../../context/AuthContextProvider';
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import { useNavigate } from 'react-router-dom';
+import countryList from 'react-select-country-list';
 
 export default function RegisterFormForCompany({ onHide, setIsRegistering }) {
     const [error, setError] = useState('');
@@ -12,6 +14,7 @@ export default function RegisterFormForCompany({ onHide, setIsRegistering }) {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [passwordMatch, setPasswordMatch] = useState(null);
+    const [selectedCountry, setSelectedCountry] = useState(null);
 
     const { login } = useAuth();
     const navigate = useNavigate();
@@ -44,7 +47,8 @@ export default function RegisterFormForCompany({ onHide, setIsRegistering }) {
             CAP: formData.get('CAP'),
             provincia: formData.get('provincia'),
             regione: formData.get('regione'),
-            paese: formData.get('paese')
+            paese: selectedCountry ? selectedCountry.label : '',
+            ISOcode: selectedCountry ? selectedCountry.value : ''
         };
 
         formData.delete('via');
@@ -95,7 +99,7 @@ export default function RegisterFormForCompany({ onHide, setIsRegistering }) {
             setConfirmPassword(value);
         }
     };
-    
+
     useEffect(() => {
         // Controllo se entrambe le password sono state inserite e poi verifico se coincidono
         if (password && confirmPassword) {
@@ -108,7 +112,37 @@ export default function RegisterFormForCompany({ onHide, setIsRegistering }) {
             // Se una delle due password è vuota, reimposto lo stato a null
             setPasswordMatch(null);
         }
-    }, [password, confirmPassword]);    
+    }, [password, confirmPassword]);
+
+    const countries = countryList().getData();
+
+    // Stile custom per rendere l'input di selezione dei paesi uguale agli altri di Bootstrap
+    const customStyles = {
+        control: (provided, state) => ({
+            ...provided,
+            borderColor: state.isFocused ? '#80bdff' : '#dee2e6', // Bootstrap border color on focus and default
+            borderRadius: '0.375rem', // Bootstrap border-radius
+            boxShadow: state.isFocused ? '0 0 0 0.2rem rgba(0, 123, 255, 0.25)' : 'none', // Bootstrap focus shadow
+            '&:hover': {
+                borderColor: '#dee2e6', // Keep the same on hover
+            },
+        }),
+        singleValue: (provided) => ({
+            ...provided,
+            color: '#495057', // Bootstrap text color for form control
+        }),
+        placeholder: (provided) => ({
+            ...provided,
+            color: '#6c757d', // Bootstrap placeholder color
+        }),
+        dropdownIndicator: (provided) => ({
+            ...provided,
+            color: '#6c757d', // Bootstrap icon color
+            '&:hover': {
+                color: '#6c757d', // Keep the same on hover
+            },
+        })
+    };
 
     return (
         <Form onSubmit={handleSubmit}>
@@ -215,7 +249,13 @@ export default function RegisterFormForCompany({ onHide, setIsRegistering }) {
                 <Col sm={12} lg={5}>
                     <Form.Group controlId="formIndirizzoPaese" className="mt-2">
                         <Form.Label>Paese <span className="text-danger">*</span></Form.Label>
-                        <Form.Control type="text" name="paese" required />
+                        <Select 
+                            options={countries} 
+                            value={selectedCountry}
+                            onChange={setSelectedCountry}
+                            placeholder=""
+                            styles={customStyles}
+                        />
                     </Form.Group>
                 </Col>
             </Row>
