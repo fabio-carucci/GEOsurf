@@ -57,23 +57,19 @@ const MyResponsiveChoropleth = () => {
     useEffect(() => {
         fetchData();
     }, []);
-    useEffect(() => {
-        console.log(data)
-    }, [data]);
-
 
     return (
-        <Container style={{ height: `${containerHeight}px` }} className='d-flex justify-content-center'>
+        <Container style={{ height: `${containerHeight}px` }} className='d-flex justify-content-center fade-in'>
             <ResponsiveChoropleth
                 data={data}
                 features={Features.features}
                 margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
                 colors="YlGnBu"
                 domain={[0, 10]}
+                valueFormat={(value) => Math.round(value)}
                 isInteractive={true}
                 unknownColor="#faf3e6"
                 label="GEOsurf school's location"
-                valueFormat=".2s"
                 projectionScale={projectionScale}
                 projectionType='mercator'
                 projectionTranslation={[0.45, 0.65]}
@@ -146,10 +142,10 @@ const MyResponsiveChoropleth = () => {
                         translateX: 20,
                         translateY: -100,
                         itemsSpacing: 0,
-                        itemWidth: 94,
+                        itemWidth: 60,
                         itemHeight: 18,
                         itemDirection: 'left-to-right',
-                        itemTextColor: '#444444',
+                        itemTextColor: '#091931',
                         itemOpacity: 0.85,
                         symbolSize: 18,
                         effects: [
@@ -160,7 +156,10 @@ const MyResponsiveChoropleth = () => {
                                     itemOpacity: 1
                                 }
                             }
-                        ]
+                        ],
+                        // Customize tick values to show only integers
+                        tickValues: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                        tickFormat: d => d,
                     }
                 ]}
             />

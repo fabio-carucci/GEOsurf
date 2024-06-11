@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Container, Button, Form, InputGroup, Spinner, Alert } from 'react-bootstrap';
-import { AiOutlineCloseCircle } from 'react-icons/ai';
+import { FaX } from "react-icons/fa6";
 import './SearchBar.css';
+import 'rc-slider/assets/index.css';
+import Slider from 'rc-slider';
 
 export default function SearchBar({ onSearchResults, searchPerformed, setSearchPerformed, loading, setLoading }) {
     const [address, setAddress] = useState('');
@@ -63,16 +65,16 @@ export default function SearchBar({ onSearchResults, searchPerformed, setSearchP
         <div className={`searchbar-container ${searchPerformed ? 'searchbar-reduced' : ''}`}>
             <Container>
                 <div className='d-flex align-items-center flex-column'>
-                    <h2 className={`searchbar-title ${searchPerformed ? 'searchbar-title-reduced' : ''}`}>
+                    <h2 className={`searchbar-title ${searchPerformed ? 'searchbar-title-reduced' : ''} fade-in`}>
                         Scopri le Migliori Scuole di Surf nel Mondo
                     </h2>
-                    <p className={`searchbar-description ${searchPerformed ? 'searchbar-description-reduced' : ''}`}>
+                    <p className={`searchbar-description ${searchPerformed ? 'searchbar-description-reduced' : ''} fade-in`}>
                         Benvenuto su GEOsurf, il tuo punto di riferimento per trovare le destinazioni perfette per il surf. Che tu sia un principiante o un surfista esperto, il nostro sito ti aiuterà a scoprire i luoghi più affascinanti e le onde più entusiasmanti. 
                         <br/>Inserisci la posizione che preferisci, seleziona la distanza e trova il prossimo spot da esplorare!
                     </p>
                 </div>
                 <Form onSubmit={handleSearch}>
-                    <div className='d-flex justify-content-center'>
+                    <div className='d-flex justify-content-center fade-in'>
                         <InputGroup className="mb-3 input-group-custom">
                             <Form.Control
                                 type="text" 
@@ -83,7 +85,7 @@ export default function SearchBar({ onSearchResults, searchPerformed, setSearchP
                                 style={{ paddingRight: address ? '30px' : '8px' }} // Aggiungi spazio per la X
                             />
                             {address && (
-                                <AiOutlineCloseCircle 
+                                <FaX 
                                     className="clear-icon fs-5"
                                     onClick={handleClearFields}
                                 />
@@ -97,18 +99,17 @@ export default function SearchBar({ onSearchResults, searchPerformed, setSearchP
                             </Button>
                         </InputGroup>
                     </div>
-                    <div className='d-flex justify-content-center'>
+                    <div className='d-flex justify-content-center fade-in'>
                         <Form.Group controlId="distance" className="d-flex align-items-center ms-lg-3 flex-column flex-lg-row" style={{width: "70%"}}>
                             <Form.Label className="mb-3 mb-lg-1 mr-2 flex-shrink-0" style={{ minWidth: '150px', color:"white" }}>
                                 Raggio di {distance} Km
                             </Form.Label>
-                            <Form.Control 
-                                type="range" 
-                                min="20" 
-                                max="200" 
+                            <Slider
+                                min={20}
+                                max={200}
                                 value={distance}
-                                onChange={(e) => setDistance(e.target.value)}
-                                className="custom-range flex-grow-1 mb-3 mb-lg-1"
+                                onChange={setDistance}
+                                className="custom-slider flex-grow-1 mb-3 mb-lg-1"
                             />
                         </Form.Group>
                     </div>

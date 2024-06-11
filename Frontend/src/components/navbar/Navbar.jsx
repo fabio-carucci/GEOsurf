@@ -46,7 +46,7 @@ export default function CustomNavbar() {
                                         <NavDropdown.Divider />
                                     </>
                                 )}
-                                <NavDropdown.Item className='text-danger fw-bold' onClick={() => logout()}>Logout</NavDropdown.Item>
+                                <NavDropdown.Item className='text-danger fw-bold' onClick={() => {logout(); window.location.href = '/';}}>Logout</NavDropdown.Item>
                             </NavDropdown>
                         )}
                     </Nav>

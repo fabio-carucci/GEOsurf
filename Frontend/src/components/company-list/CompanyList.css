@@ -62,3 +62,7 @@
 .heart-icon.active {
     color: rgb(212, 0, 0); /* Cambia il colore dell'icona del cuore quando è attiva */
 }
+
+.no-results {
+    min-height: calc(100vh - 620px); /* Altezza desiderata quando non ci sono risultati */
+}

@@ -5,6 +5,19 @@
     transition: padding 0.7s ease-in-out;
 }
 
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.fade-in {
+    animation: fadeIn 1s ease-in-out;
+}
+
 .searchbar-reduced {
     padding-top: 5px;
     padding-bottom: 10px;
@@ -37,42 +50,6 @@
 
 .searchbar-description-reduced {
     display: none;
-}
-
-.custom-range {
-    width: 100%;
-    -webkit-appearance: none;
-    appearance: none;
-    height: 3px;
-    border: 1px solid rgb(9, 25, 49);
-    background: white;
-    outline: none;
-    opacity: 1;
-    transition: opacity 0.2s;
-}
-
-.custom-range:hover {
-    box-shadow: 0 0 5px rgb(9, 25, 49);
-}
-
-.custom-range::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 25px;
-    height: 25px;
-    background: rgb(9, 25, 49);
-    cursor: pointer;
-    border: 1px solid white;
-    border-radius: 50%;
-}
-
-.custom-range::-moz-range-thumb {
-    width: 25px;
-    height: 25px;
-    background: rgb(9, 25, 49);
-    cursor: pointer;
-    border-radius: 50%;
-    border: 1px solid white;
 }
 
 .custom-input {
@@ -131,6 +108,23 @@
 
 .custom-check {
     font-size: 1rem;
+}
+
+/* CustomSlider.css */
+.custom-slider .rc-slider-track {
+    background-color: rgba(9, 25, 49, 0.5) !important;
+}
+
+.custom-slider .rc-slider-handle {
+    border-color: rgb(9, 25, 49) !important;
+}
+
+.custom-slider .rc-slider-handle-dragging {
+    box-shadow: 0 0 0 5px rgb(250, 243, 230) !important;
+}
+
+.custom-slider .rc-slider-rail {
+    background-color: white;
 }
 
 @media screen and (min-width: 792px) {

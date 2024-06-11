@@ -9,7 +9,6 @@ import { useAuth } from '../../context/AuthContextProvider';
 
 function CompanyList({ results, searchPerformed, loading }) {
     const [favorites, setFavorites] = useState([]);
-    
     const { user, role } = useAuth();
 
     const toggleFavorite = (companyId) => {
@@ -36,7 +35,7 @@ function CompanyList({ results, searchPerformed, loading }) {
             ) : (
                 <>
                 {searchPerformed && (
-                    <p className='text-danger mt-2'>
+                    <p className={`text-danger mt-2 ${results.length === 0 ? 'no-results' : ''}`}>
                         {results.length === 1 ? '1 risultato di ricerca' : `${results.length} risultati di ricerca`}
                     </p>
                 )}
