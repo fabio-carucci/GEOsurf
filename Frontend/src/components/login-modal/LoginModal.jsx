@@ -3,6 +3,7 @@ import { Modal, Button } from 'react-bootstrap';
 import './LoginModal.css';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
+import GoogleLoginButton from './GoogleLoginButton';
 
 export default function LoginModal(props) {
   const [isRegistering, setIsRegistering] = useState(false);
@@ -45,7 +46,7 @@ export default function LoginModal(props) {
         {/* Bottone per il login con Google */}
         {!isRegistering &&
           <div className="text-center">
-            <Button variant="outline-danger" className="mt-2 px-4">Accedi con Google</Button>
+            <GoogleLoginButton />
           </div>}
       </Modal.Body>
       <Modal.Footer>
