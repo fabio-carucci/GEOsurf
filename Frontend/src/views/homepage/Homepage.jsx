@@ -33,7 +33,7 @@ export default function Homepage() {
         if (accessToken) {
             login(accessToken, "user")
         }
-    }, []);
+    }, [accessToken]);
 
     return (
         <div>
