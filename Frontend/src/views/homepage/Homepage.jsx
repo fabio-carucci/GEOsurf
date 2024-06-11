@@ -31,10 +31,9 @@ export default function Homepage() {
 
     useEffect(() => {
         if (accessToken) {
-            console.log("Access Token:", accessToken);
             login(accessToken, "user")
         }
-    }, [accessToken, login]);
+    }, []);
 
     return (
         <div>
