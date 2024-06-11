@@ -9,6 +9,7 @@ import Newspage from './views/news-page/Newspage';
 import { useAuth } from './context/AuthContextProvider';
 import FavoritePage from './views/favorites-page/FavoritePage';
 import Footer from './components/footer/Footer';
+import NotFound from './views/notFound-page/NotFound';
 
 function App() {
 
@@ -20,7 +21,7 @@ function App() {
         <Route path="/" element={<Homepage />} />
         <Route path="/companyProfile/:id" element={<CompanyProfile />} />
         <Route path="/news" element={<Newspage />} />
-        <Route path="/*" element={<h1>Page Not Found</h1>} />
+        <Route path="/*" element={<NotFound />} />
         {user && <Route path='/favorites' element={<FavoritePage />} />}
       </Routes>
       <Footer />
